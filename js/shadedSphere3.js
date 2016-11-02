@@ -3,7 +3,7 @@
 var canvas;
 var gl;
 
-var numTimesToSubdivide = 3;
+var numTimesToSubdivide = 5;
  
 var index = 0;
 
@@ -145,27 +145,13 @@ window.onload = function init() {
     projectionMatrixLoc = gl.getUniformLocation( program, "projectionMatrix" );
     normalMatrixLoc = gl.getUniformLocation( program, "normalMatrix" );
 
-    document.getElementById("Button0").onclick = function(){radius *= 2.0;};
+    document.getElementById("Button0").onclick = function(){radius += 2.0;};
     document.getElementById("Button1").onclick = function(){radius *= 0.5;};
     document.getElementById("Button2").onclick = function(){theta += dr;};
     document.getElementById("Button3").onclick = function(){theta -= dr;};
     document.getElementById("Button4").onclick = function(){phi += dr;};
     document.getElementById("Button5").onclick = function(){phi -= dr;};
     
-    document.getElementById("Button6").onclick = function(){
-        numTimesToSubdivide++; 
-        index = 0;
-        pointsArray = [];
-        normalsArray = []; 
-        init();
-    };
-    document.getElementById("Button7").onclick = function(){
-        if(numTimesToSubdivide) numTimesToSubdivide--;
-        index = 0;
-        pointsArray = [];
-        normalsArray = []; 
-        init();
-    };
 
 
     gl.uniform4fv( gl.getUniformLocation(program, 
