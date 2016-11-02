@@ -226,7 +226,7 @@ function render() {
     
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-    mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, projectionMatrix);
+    //mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, projectionMatrix);
     
     eye = vec3(radius*Math.sin(theta)*Math.cos(phi), 
         radius*Math.sin(theta)*Math.sin(phi), radius*Math.cos(theta));
