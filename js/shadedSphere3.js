@@ -3,7 +3,7 @@
 var canvas;
 var gl;
 
-var numTimesToSubdivide = 5;
+var numTimesToSubdivide = 4;
  
 var index = 0;
 
@@ -23,11 +23,20 @@ var right = 3.0;
 var ytop =3.0;
 var bottom = -3.0;
 
+/*
 var va = vec4(0.0, 0.0, -1.0,1);
 var vb = vec4(0.0, 0.942809, 0.333333, 1);
 var vc = vec4(-0.816497, -0.471405, 0.333333, 1);
 var vd = vec4(0.816497, -0.471405, 0.333333,1);
-    
+*/
+var wk = 2;
+
+var va = vec4(0.0, 0.0, -1.0,1 * wk);
+var vb = vec4(0.0, 0.942809, 0.333333, 1 * wk);
+var vc = vec4(-0.816497, -0.471405, 0.333333, 1 * wk);
+var vd = vec4(0.816497, -0.471405, 0.333333,1 * wk);
+
+
 var lightPosition = vec4(1.0, 1.0, 1.0, 0.0 );
 var lightAmbient = vec4(0.2, 0.2, 0.2, 1.0 );
 var lightDiffuse = vec4( 1.0, 1.0, 1.0, 1.0 );
@@ -49,6 +58,10 @@ var normalMatrix, normalMatrixLoc;
 var eye;
 var at = vec3(0.0, 0.0, 0.0);
 var up = vec3(0.0, 1.0, 0.0);
+
+ballX = 0.0;
+ballY = 0.0;
+ballZ = 0.0;
     
 function triangle(a, b, c) {
 
@@ -60,10 +73,12 @@ function triangle(a, b, c) {
      normalsArray.push(normal);
      normalsArray.push(normal);
      normalsArray.push(normal);
+
+     var positionVec = vec4(ballX, ballY, ballZ, 0);
      
-     pointsArray.push(a);
-     pointsArray.push(b);      
-     pointsArray.push(c);
+     pointsArray.push(add(a, positionVec));
+     pointsArray.push(add(b, positionVec));
+     pointsArray.push(add(c, positionVec));
 
      index += 3;
 }
@@ -72,6 +87,8 @@ function triangle(a, b, c) {
 function divideTriangle(a, b, c, count) {
     if ( count > 0 ) {
                 
+        //var ab = mix( a, b, 0.1);
+        //should be this vvvvvvvv
         var ab = mix( a, b, 0.5);
         var ac = mix( a, c, 0.5);
         var bc = mix( b, c, 0.5);
@@ -121,8 +138,9 @@ window.onload = function init() {
     diffuseProduct = mult(lightDiffuse, materialDiffuse);
     specularProduct = mult(lightSpecular, materialSpecular);
 
-    
+    //var positionVec = vec4(ballX, ballY, ballZ, 0);
     tetrahedron(va, vb, vc, vd, numTimesToSubdivide);
+    //tetrahedron(add(va, positionVec), add(vb, positionVec) , add(vc, positionVec), add(vd, positionVec), numTimesToSubdivide);
 
     var nBuffer = gl.createBuffer();
     gl.bindBuffer( gl.ARRAY_BUFFER, nBuffer);
@@ -145,12 +163,39 @@ window.onload = function init() {
     projectionMatrixLoc = gl.getUniformLocation( program, "projectionMatrix" );
     normalMatrixLoc = gl.getUniformLocation( program, "normalMatrix" );
 
-    document.getElementById("Button0").onclick = function(){radius += 2.0;};
+    document.getElementById("Button0").onclick = function(){radius *= 2.0;};
     document.getElementById("Button1").onclick = function(){radius *= 0.5;};
     document.getElementById("Button2").onclick = function(){theta += dr;};
     document.getElementById("Button3").onclick = function(){theta -= dr;};
     document.getElementById("Button4").onclick = function(){phi += dr;};
     document.getElementById("Button5").onclick = function(){phi -= dr;};
+
+    document.getElementById("Button6").onclick = function(){
+        ballX += 1;
+        console.log("ballX is now " + ballX);
+        index = 0;
+        pointsArray = [];
+        normalsArray = []; 
+        init();
+    };
+
+    document.getElementById("Button7").onclick = function(){
+        ballY += 1;
+        console.log("ballY is now " + ballY);
+        index = 0;
+        pointsArray = [];
+        normalsArray = []; 
+        init();
+    };
+
+    document.getElementById("Button8").onclick = function(){
+        ballZ += 1;
+        console.log("ballZ is now " + ballZ);
+        index = 0;
+        pointsArray = [];
+        normalsArray = [];   
+        init();
+    };
     
 
 
@@ -170,8 +215,18 @@ window.onload = function init() {
 
 
 function render() {
+    //ballX += 0.1;
+    //theta += 0.01;
+
+    //at[2] += 0.025;
+    //at[1] += 0.1;
+    //if(at[0] > 2) at[0] = -2;
+    //console.log(at[0]);
+
     
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+    mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, projectionMatrix);
     
     eye = vec3(radius*Math.sin(theta)*Math.cos(phi), 
         radius*Math.sin(theta)*Math.sin(phi), radius*Math.cos(theta));
