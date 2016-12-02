@@ -63,7 +63,7 @@ ballX = 0.0;
 ballY = 0.0;
 ballZ = 0.0;
 
-var Planet = class{
+var Planet = class Planet{
     constructor(x, y, z){
         myX = x;
         myY = y;
@@ -75,7 +75,11 @@ var Planet = class{
         myY += y;
         myZ += z;
     }
+
+
 };
+
+var planets = [];
 
 /*class Planet{
     var myX;
@@ -161,6 +165,8 @@ function tetrahedron(a, b, c, d, n) {
 }
 
 window.onload = function init() {
+
+    //planets.add(new Planet(0,0,0));
 
     canvas = document.getElementById( "gl-canvas" );
     
