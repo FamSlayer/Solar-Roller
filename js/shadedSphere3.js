@@ -63,29 +63,29 @@ ballX = 0.0;
 ballY = 0.0;
 ballZ = 0.0;
 
-var Planet = class Planet{
-    constructor(x, y, z){
-        myX = x;
-        myY = y;
-        myZ = z;
+
+var Planet = function(_x, _y, _z){
+    this.x = _x;
+    this.y = _y;
+    this.z = _z;
+
+    this.reset = function(){
+        this.x = 0;
+        this.y = 0;
+        this.z = 0;
     }
 
-    move(x, y, z){
-        myX += x;
-        myY += y;
-        myZ += z;
+    this.move = function(_x, _y, _z){
+        this.x += _x;
+        this.y += _y;
+        this.z += _z;
     }
+}
 
 
-};
+planets = [];
 
 var planets = [];
-
-/*class Planet{
-    var myX;
-    var myY;
-    var myZ;
-};*/
 
 function triangle(a, b, c) {
 
@@ -167,6 +167,7 @@ function tetrahedron(a, b, c, d, n) {
 window.onload = function init() {
 
     //planets.add(new Planet(0,0,0));
+    planets.push(new Planet(0,1,0));
 
     canvas = document.getElementById( "gl-canvas" );
     
