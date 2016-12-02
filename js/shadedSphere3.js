@@ -62,7 +62,27 @@ var up = vec3(0.0, 1.0, 0.0);
 ballX = 0.0;
 ballY = 0.0;
 ballZ = 0.0;
-    
+
+var Planet = class{
+    constructor(x, y, z){
+        myX = x;
+        myY = y;
+        myZ = z;
+    }
+
+    move(x, y, z){
+        myX += x;
+        myY += y;
+        myZ += z;
+    }
+};
+
+/*class Planet{
+    var myX;
+    var myY;
+    var myZ;
+};*/
+
 function triangle(a, b, c) {
 
      var t1 = subtract(b, a);
