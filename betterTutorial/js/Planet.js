@@ -1,11 +1,13 @@
 // this is the planet yo
+var density = 10;
+
 var Planet = function( pos_x, pos_y, pos_z, rad, velx, vely, velz )
 {
 	this.x_ = pos_x;
 	this.y_ = pos_y;
 	this.z_ = pos_z;
 	this.r_ = rad;
-	this.m_ = 4 * Math.PI / 3 * rad * rad * rad;
+	this.m_ = density * 4 * Math.PI / 3 * rad * rad * rad;
 
 
 	this.vx_ = velx;
@@ -20,11 +22,11 @@ var Planet = function( pos_x, pos_y, pos_z, rad, velx, vely, velz )
 
 
 Planet.prototype.Opdate = function( dt ) {
-	console.log("AFTER:  vx: " + this.vx_ + "  vy: " + this.vy_ + "  vz: " + this.vz_ );
+	//console.log("AFTER:  vx: " + this.vx_ + "  vy: " + this.vy_ + "  vz: " + this.vz_ );
 	this.vx_ += this.ax_ * dt;
 	this.vy_ += this.ay_ * dt;
 	this.vz_ += this.az_ * dt;
-	console.log("AFTER:  vx: " + this.vx_ + "  vy: " + this.vy_ + "  vz: " + this.vz_ );
+	//console.log("AFTER:  vx: " + this.vx_ + "  vy: " + this.vy_ + "  vz: " + this.vz_ );
 	this.x_ += this.vx_ * dt;
 	this.y_ += this.vy_ * dt;
 	this.z_ += this.vz_ * dt;
