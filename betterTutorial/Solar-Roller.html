@@ -150,24 +150,44 @@ function main() {
 	// global variable of the planets
 	var Planets = [p1,p2,p3];
 
+	// hardcode in our gravitational constant ecksdee
+	var grav_const = 6.674 * 1 / 10;
 
 	// update function that redetermines the planets' accelerations
 	// this function is gonna be updateAccelerations
 	function updateAccelerations()
 	{
-		for ( var p in Planets )
+		for ( var i = 0; i < Planets.length; i++ )
 		{
+			var p = Planets[i];
 			var ax = 0;
 			var ay = 0;
 			var az = 0;
 
-			for ( var other_p in Planets )
-			{
+			for ( var j = 0; j < Planets.length; j++ )
+			{	
+				other_p = Planets[j];
 				if ( p !== other_p )
 				{
-					
+					var dx = other_p.x_ - p.x_;
+					var dy = other_p.y_ - p.y_;
+					var dz = other_p.z_ - p.z_;
+
+					var dist = Math.sqrt( dx*dx + dy*dy + dz*dz );
+
+					// F = G * m1 * m2 / (r*r)
+					// m1 * a = g * m1 * m2 / (r*r)
+					// a = G * m2 / (r*r)
+
+					var scalar = 1 / dist * grav_const * other_p.m_ / (dist * dist);
+					ax+= dx * scalar;
+					ay+= dy * scalar;
+					az+= dz *
+
 				}
 			}
+
+
 
 		}
 
