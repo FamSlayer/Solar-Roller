@@ -107,9 +107,9 @@ function main() {
     var timeSlice = 16;
 
     // hardcoding in our planets for now
-    var p1 = new Planet(  1000,  600,   0,  1,  -50,  -20,   0);
-    var p2 = new Planet( 600, -50,   0,  1, 10, 10,   0);
-    var p3 = new Planet( 150, 400,   0,   1,  1, 20,   0);
+    var p1 = new Planet(  1000,  600,   100,  1,  -50,  -20,   0);
+    var p2 = new Planet( 600, -50,   100,  1, 10, 10,   0);
+    var p3 = new Planet( 150, 400,   100,   1,  1, 20,   0);
 
     // global variable of the planets
     var Planets = [p1,p2,p3];
@@ -201,26 +201,88 @@ function main() {
 
         for ( var i = 0; i < Planets.length; i++ )
         {
-
+            
+            
             for ( var j = 0; j < Planets.length; j++ )
-            {   
-                if ( Planets[i] !== Planets[j] )
-                {
-                    //find distance between planets
-                    var distance = Math.sqrt((Planets[i].x_ - Planets[j].x_) * (Planets[i].x_ - Planets[j].x_) +
-                                                (Planets[i].y_ - Planets[j].y_) * (Planets[i].y_ - Planets[j].y_) +
-                                                (Planets[i].x_ - Planets[j].x_) * (Planets[i].x_ - Planets[j].x_));
-                    
-                    if(distance < Planets[i].r_ + Planets[j].r_){
-                        console.log("collision");
-
-                        //combine the two planets
+            {
+                //see if toDelete contains i
+                var mFlag = false;
+                for(var z = 0; z < toDelete.length; z++){
+                    if(toDelete[z] === j){
+                        console.log("caught the bug");
+                        mFlag = true;
+                        break;
                     }
+                }
+                if(!mFlag){
+                    if ( Planets[i] !== Planets[j] )
+                    {
+                        //find distance between planets
+                        var distance = Math.sqrt((Planets[i].x_ - Planets[j].x_) * (Planets[i].x_ - Planets[j].x_) +
+                                                    (Planets[i].y_ - Planets[j].y_) * (Planets[i].y_ - Planets[j].y_) +
+                                                    (Planets[i].x_ - Planets[j].x_) * (Planets[i].x_ - Planets[j].x_));
+                        //console.log("distance = " + distance + " and radius sum = " + (Planets[i].r_ + Planets[j].r_) );
+                        if(distance < 100 * (Planets[i].r_ + Planets[j].r_ ) ){
+                            console.log("collision");
+                            
 
+                            //find the larger planet
+                            var bigPlanet;
+                            var smallPlanet;
+                            if(Planets[i].m_ > Planets[j]){
+                                bigPlanet = Planets[i];
+                                smallPlanet = Planets[j];
+                                toDelete.push(j);
+                            } else{
+                                bigPlanet = Planets[j];
+                                smallPlanet = Planets[i];
+                                toDelete.push(i);
+                            }
+
+                            //toDelete.push(smallPlanet);
+
+                            //conserve the momentum
+                            var px = bigPlanet.m_ * bigPlanet.vx_ + smallPlanet.m_ * smallPlanet.vx_;
+                            var py = bigPlanet.m_ * bigPlanet.vy_ + smallPlanet.m_ * smallPlanet.vy_;
+                            var pz = bigPlanet.m_ * bigPlanet.vz_ + smallPlanet.m_ * smallPlanet.vz_;
+
+                            //combine the planets mass
+                            bigPlanet.AddMass(smallPlanet.m_);
+
+                            bigPlanet.vx_ = px / bigPlanet.m_;
+                            bigPlanet.vy_ = py / bigPlanet.m_;
+                            bigPlanet.vz_ = pz / bigPlanet.m_;
+
+                        }
+
+                    }
+                }
+            }
+        
+
+        }
+
+        //remove the planets that are gonezo
+        if(toDelete.length > 0){
+            var newPlanets = [];
+            
+            for(var i = 0; i < Planets.length; i++){
+                var flag = false;
+                for (var j = 0; j < toDelete.length; j++){
+                    if(toDelete[j] === i){
+                        flag = true;
+                        break;
+                    }
+                }
+
+                if(!flag){
+                    newPlanets.push(Planets[i]);
                 }
             }
 
+            Planets = newPlanets;
         }
+
     }
 
 
@@ -333,6 +395,7 @@ function main() {
 		gl.vertexAttribPointer(
 				colorLocation, size, type, normalize, stride, offset)
 
+        checkCollision();
         updateAccelerations();
 		// Compute the matrices
         //Planets[0].Opdate(times);

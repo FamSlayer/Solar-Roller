@@ -44,5 +44,7 @@ Planet.prototype.SetAcceleration = function(a, b, c)
 Planet.prototype.AddMass = function( mass )
 {
 	this.m_ += mass;
-	this.r = Math.cbrt(this.m_);
+	console.log("my r before is " + this.r_);
+	this.r_ = Math.cbrt(this.m_ * 3 / 4 / Math.PI / density) ;
+	console.log("my r after is " + this.r_);
 }
