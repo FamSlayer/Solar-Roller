@@ -107,9 +107,9 @@ function main() {
     var timeSlice = 16;
 
     // hardcoding in our planets for now
-    var p1 = new Planet(  50,  50,   0,  20,  10,  10,   0);
-    var p2 = new Planet( -50, -50,   0,  20, -10, -10,   0);
-    var p3 = new Planet( 150, 150,   0,   1,  50, -40,   0);
+    var p1 = new Planet(  50,  50,   0,  0.5,  15,  2,   0);
+    var p2 = new Planet( -50, -50,   0,  1, 10, 10,   1);
+    var p3 = new Planet( 150, 150,   0,   0.75,  1, 20,   0);
 
     // global variable of the planets
     var Planets = [p1,p2,p3];
@@ -316,7 +316,9 @@ function main() {
         gl.drawArrays(primitiveType, offset, count);
         */
         for(var i = 0; i < Planets.length; i++){
-            Planets[i].Opdate(timeSlice);
+            
+
+            Planets[i].Opdate(timeSlice/1000);
 
             var matrix = m4.projection(gl.canvas.clientWidth, gl.canvas.clientHeight, 400);
             matrix = m4.translate(matrix, Planets[i].x_, Planets[i].y_, Planets[i].z_);
