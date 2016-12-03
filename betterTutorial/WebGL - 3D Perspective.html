@@ -76,7 +76,7 @@ void main() {
 	vec4 position = u_matrix * a_position;
 
 	// Adjust the z to divide by
-	float zToDivideBy = 1.0 + position.z * u_fudgeFactor;
+	float zToDivideBy = 1.0 + position.z;// * u_fudgeFactor;
 
 	// Divide x and y by z.
 	gl_Position = vec4(position.xy / zToDivideBy, position.zw);
@@ -148,7 +148,7 @@ function main() {
 	var translation = [45, 150, 0];
 	var rotation = [degToRad(40), degToRad(25), degToRad(325)];
 	var scale = [1, 1, 1];
-	var fudgeFactor = 0;
+	var fudgeFactor = .2;
 
 	drawScene();
 
