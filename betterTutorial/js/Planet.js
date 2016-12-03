@@ -20,10 +20,11 @@ var Planet = function( pos_x, pos_y, pos_z, rad, velx, vely, velz )
 
 
 Planet.prototype.Opdate = function( dt ) {
+	console.log("AFTER:  vx: " + this.vx_ + "  vy: " + this.vy_ + "  vz: " + this.vz_ );
 	this.vx_ += this.ax_ * dt;
 	this.vy_ += this.ay_ * dt;
 	this.vz_ += this.az_ * dt;
-
+	console.log("AFTER:  vx: " + this.vx_ + "  vy: " + this.vy_ + "  vz: " + this.vz_ );
 	this.x_ += this.vx_ * dt;
 	this.y_ += this.vy_ * dt;
 	this.z_ += this.vz_ * dt;

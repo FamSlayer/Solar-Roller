@@ -156,7 +156,7 @@ function main() {
 	
 
 	// hardcode in our gravitational constant ecksdee
-	var grav_const = 6.674 * 1 / 10;
+	var grav_const = 6.674 * 10000;
 
 	// update function that redetermines the planets' accelerations
 	// this function is gonna be updateAccelerations
@@ -190,7 +190,7 @@ function main() {
 				}
 			}
 
-			Planets[i].updateAccelerations(ax,ay,az);
+			Planets[i].SetAcceleration(ax,ay,az);
 
 		}
 
@@ -306,7 +306,7 @@ function main() {
 		gl.vertexAttribPointer(
 				colorLocation, size, type, normalize, stride, offset)
 
-        //updateAccelerations();
+        updateAccelerations();
 		// Compute the matrices
         //Planets[0].Opdate(times);
         //console.log("ts = " + timeSlice + "planet[0]: " + Planets[0].x_ + " "+ Planets[0].y_ + " "+ Planets[0].z_ + " ");
