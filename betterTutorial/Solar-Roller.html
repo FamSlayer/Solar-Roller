@@ -98,6 +98,7 @@ void main() {
 </script>
 <script src="./js/webgl-utils.js"></script>
 <script src="./js/webgl-lessons-helper.js"></script>
+<script src="./js/Planet.js"></script>
 <script>
 "use strict";
 
@@ -136,6 +137,31 @@ function main() {
 	gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
 	// Put geometry data into buffer
 	setColors(gl);
+
+
+
+
+
+	// hardcoding in our planets for now
+	Planet p1 = new Planet(  50,  50,   0,  20,  10,  10,   0);
+	Planet p2 = new Planet( -50, -50,   0,  20, -10, -10,   0);
+	Planet p3 = new Planet( 150, 150,   0,   1,  50, -40,   0);
+
+	// global variable of the planets
+	var Planets = [p1,p2,p3];
+
+
+	// update function that redetermines the planets' accelerations
+	// this function is gonna be updateAccelerations
+	function updateAccelerations()
+	{
+
+	}
+
+
+
+
+
 
 	function radToDeg(r) {
 		return r * 180 / Math.PI;
@@ -292,6 +318,8 @@ function main() {
         //redraw
         setTimeout(function() { drawScene(); }, 16);
 	}
+
+
 }
 
 var m4 = {
