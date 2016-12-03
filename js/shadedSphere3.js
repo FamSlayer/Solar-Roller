@@ -108,12 +108,20 @@ function triangle(a, b, c) {
 }
 
 function update(program){
+    console.log("update called");
+
+    index = 0;
+    pointsArray = [];
+    normalsArray = [];  
+
+    ballX += 0.1;
 
     tetrahedron(va, vb, vc, vd, numTimesToSubdivide);   
 
     var nBuffer = gl.createBuffer();
     gl.bindBuffer( gl.ARRAY_BUFFER, nBuffer);
     gl.bufferData( gl.ARRAY_BUFFER, flatten(normalsArray), gl.STATIC_DRAW );
+    //gl.bufferData( gl.ARRAY_BUFFER, flatten(normalsArray), gl.DYNAMIC_DRAW );
     
     var vNormal = gl.getAttribLocation( program, "vNormal" );
     gl.vertexAttribPointer( vNormal, 4, gl.FLOAT, false, 0, 0 );
@@ -123,6 +131,7 @@ function update(program){
     var vBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, vBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, flatten(pointsArray), gl.STATIC_DRAW);
+    //gl.bufferData(gl.ARRAY_BUFFER, flatten(pointsArray), gl.DYNAMIC_DRAW);
     
     var vPosition = gl.getAttribLocation( program, "vPosition");
     gl.vertexAttribPointer(vPosition, 4, gl.FLOAT, false, 0, 0);
@@ -196,7 +205,8 @@ window.onload = function init() {
 
     var nBuffer = gl.createBuffer();
     gl.bindBuffer( gl.ARRAY_BUFFER, nBuffer);
-    gl.bufferData( gl.ARRAY_BUFFER, flatten(normalsArray), gl.STATIC_DRAW );
+    //gl.bufferData( gl.ARRAY_BUFFER, flatten(normalsArray), gl.STATIC_DRAW );
+    gl.bufferData( gl.ARRAY_BUFFER, flatten(normalsArray), gl.DYNAMIC_DRAW );
     
     var vNormal = gl.getAttribLocation( program, "vNormal" );
     gl.vertexAttribPointer( vNormal, 4, gl.FLOAT, false, 0, 0 );
@@ -205,7 +215,8 @@ window.onload = function init() {
 
     var vBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, vBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, flatten(pointsArray), gl.STATIC_DRAW);
+    //gl.bufferData(gl.ARRAY_BUFFER, flatten(pointsArray), gl.STATIC_DRAW);
+    gl.bufferData(gl.ARRAY_BUFFER, flatten(pointsArray), gl.DYNAMIC_DRAW);
     
     var vPosition = gl.getAttribLocation( program, "vPosition");
     gl.vertexAttribPointer(vPosition, 4, gl.FLOAT, false, 0, 0);
@@ -265,11 +276,11 @@ window.onload = function init() {
     gl.uniform1f( gl.getUniformLocation(program, 
        "shininess"),materialShininess );
 
-    render();
+    render(program);
 }
 
 
-function render() {
+function render(mProgram) {
     //ballX += 0.1;
     //theta += 0.01;
 
@@ -277,6 +288,12 @@ function render() {
     //at[1] += 0.1;
     //if(at[0] > 2) at[0] = -2;
     //console.log(at[0]);
+    //ballX += 0.1;
+    //console.log("render");
+    //console.log("ballX is " + ballX);
+    /*if(mProgram){
+        console.log("mprogram is a thing");
+    }*/
 
     
     gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
@@ -297,10 +314,14 @@ function render() {
             
     gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(modelViewMatrix) );
     gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(projectionMatrix) );
-         gl.uniformMatrix3fv(normalMatrixLoc, false, flatten(normalMatrix) );
-        
+    gl.uniformMatrix3fv(normalMatrixLoc, false, flatten(normalMatrix) );
+
+
+    
     for( var i=0; i<index; i+=3) 
         gl.drawArrays( gl.TRIANGLES, i, 3 );
 
+
+    //update(mProgram);
     window.requestAnimFrame(render);
 }
