@@ -19,7 +19,7 @@ var Planet = function( pos_x, pos_y, pos_z, rad, velx, vely, velz )
 };
 
 
-Planet.prototype.Update = function( dt ) {
+Planet.prototype.Opdate = function( dt ) {
 	this.vx_ += this.ax_ * dt;
 	this.vy_ += this.ay_ * dt;
 	this.vz_ += this.az_ * dt;
@@ -29,7 +29,7 @@ Planet.prototype.Update = function( dt ) {
 	this.z_ += this.vz_ * dt;
 };
 
-Planet.prototype.SetAcceleration( a, b, c)
+Planet.prototype.SetAcceleration = function(a, b, c)
 {
 	this.ax_ = a;
 	this.ay_ = b;
