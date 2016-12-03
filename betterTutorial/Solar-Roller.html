@@ -164,19 +164,17 @@ function main() {
 	{
 		for ( var i = 0; i < Planets.length; i++ )
 		{
-			var p = Planets[i];
 			var ax = 0;
 			var ay = 0;
 			var az = 0;
 
 			for ( var j = 0; j < Planets.length; j++ )
 			{	
-				other_p = Planets[j];
-				if ( p !== other_p )
+				if ( Planets[i] !== Planets[j] )
 				{
-					var dx = other_p.x_ - p.x_;
-					var dy = other_p.y_ - p.y_;
-					var dz = other_p.z_ - p.z_;
+					var dx = Planets[j].x_ - Planets[i].x_;
+					var dy = Planets[j].y_ - Planets[i].y_;
+					var dz = Planets[j].z_ - Planets[i].z_;
 
 					var dist = Math.sqrt( dx*dx + dy*dy + dz*dz );
 
@@ -184,15 +182,15 @@ function main() {
 					// m1 * a = g * m1 * m2 / (r*r)
 					// a = G * m2 / (r*r)
 
-					var scalar = 1 / dist * grav_const * other_p.m_ / (dist * dist);
+					var scalar = 1 / dist * grav_const * Planets[j].m_ / (dist * dist);
 					ax+= dx * scalar;
 					ay+= dy * scalar;
-					az+= dz *
+					az+= dz * scalar;
 
 				}
 			}
 
-
+			Planets[i].updateAccelerations(ax,ay,az);
 
 		}
 
