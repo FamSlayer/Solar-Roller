@@ -13,13 +13,13 @@ Drag sliders to translate, rotate, and scale.
 <canvas id="canvas" width="398" height="298"></canvas>
 <div id="uiContainer">
   <div id="ui">
-    <div id="fudgeFactor">
+    <!--<div id="fudgeFactor">
       <div class="gman-slider-outer">
         <div class="gman-slider-label">fudgeFactor</div>
         <div class="gman-slider-value">1.000</div>
         <input class="gman-slider-slider" type="range" min="0" max="2000" value="1000">
       </div>
-    </div>
+    </div> -->
     <div id="x">
       <div class="gman-slider-outer">
         <div class="gman-slider-label">x</div>
@@ -152,7 +152,7 @@ function main() {
   var translation = [45, 150, 0];
   var rotation = [degToRad(40), degToRad(25), degToRad(325)];
   var scale = [1, 1, 1];
-  var fudgeFactor = 1;
+  var fudgeFactor = 0;
 
   drawScene();
 
