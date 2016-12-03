@@ -29,9 +29,16 @@ Planet.prototype.Update = function( dt ) {
 	this.z_ += this.vz_ * dt;
 };
 
-Planet.prototype.SetAcceleration( a, b, c)
+Planet.prototype.SetAcceleration = function( a, b, c)
 {
 	this.ax_ = a;
 	this.ay_ = b;
 	this.az_ = c;
+}
+
+
+Planet.prototype.AddMass = function( mass )
+{
+	this.m_ += mass;
+	this.r = Math.cbrt(this.m_);
 }
