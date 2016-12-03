@@ -196,6 +196,33 @@ function main() {
 
 	}
 
+    function checkCollision(){
+        var toDelete = [];
+
+        for ( var i = 0; i < Planets.length; i++ )
+        {
+
+            for ( var j = 0; j < Planets.length; j++ )
+            {   
+                if ( Planets[i] !== Planets[j] )
+                {
+                    //find distance between planets
+                    var distance = Math.sqrt((Planets[i].x_ - Planets[j].x_) * (Planets[i].x_ - Planets[j].x_) +
+                                                (Planets[i].y_ - Planets[j].y_) * (Planets[i].y_ - Planets[j].y_) +
+                                                (Planets[i].x_ - Planets[j].x_) * (Planets[i].x_ - Planets[j].x_));
+                    
+                    if(distance < Planets[i].r_ + Planets[j].r_){
+                        console.log("collision");
+
+                        //combine the two planets
+                    }
+
+                }
+            }
+
+        }
+    }
+
 
 
 
@@ -309,30 +336,7 @@ function main() {
         updateAccelerations();
 		// Compute the matrices
         //Planets[0].Opdate(times);
-        //console.log("ts = " + timeSlice + "planet[0]: " + Planets[0].x_ + " "+ Planets[0].y_ + " "+ Planets[0].z_ + " ");
-        /*
-        Planets[0].Opdate(timeSlice);
-
-        var matrix = m4.projection(gl.canvas.clientWidth, gl.canvas.clientHeight, 400);
-        matrix = m4.translate(matrix, Planets[0].x_, Planets[0].y_, Planets[0].z_);
-        matrix = m4.xRotate(matrix, rotation[0]);
-        matrix = m4.yRotate(matrix, rotation[1]);
-        matrix = m4.zRotate(matrix, rotation[2]);
-        matrix = m4.scale(matrix, Planets[0].r_, Planets[0].r_, Planets[0].r_);
-
-
-        // Set the matrix.
-        gl.uniformMatrix4fv(matrixLocation, false, matrix);
-
-        // Set the fudgeFactor
-        gl.uniform1f(fudgeLocation, fudgeFactor);
-
-        // Draw the geometry.
-        var primitiveType = gl.TRIANGLES;
-        var offset = 0;
-        var count = 16 * 6;
-        gl.drawArrays(primitiveType, offset, count);
-        */
+        
         for(var i = 0; i < Planets.length; i++){
             
 
@@ -345,7 +349,6 @@ function main() {
             matrix = m4.zRotate(matrix, rotation[2]);
             matrix = m4.scale(matrix, Planets[i].r_, Planets[i].r_, Planets[i].r_);
 
-
             // Set the matrix.
             gl.uniformMatrix4fv(matrixLocation, false, matrix);
 
@@ -358,32 +361,7 @@ function main() {
             var count = 16 * 6;
             gl.drawArrays(primitiveType, offset, count);
         }
-        /*
-        for(var planet in Planets){
-
-            planet.Opdate(timeSlice);
-
-            var matrix = m4.projection(gl.canvas.clientWidth, gl.canvas.clientHeight, 400);
-            matrix = m4.translate(matrix, planet.x_, planet.y_, planet.z_);
-            matrix = m4.xRotate(matrix, rotation[0]);
-            matrix = m4.yRotate(matrix, rotation[1]);
-            matrix = m4.zRotate(matrix, rotation[2]);
-            matrix = m4.scale(matrix, planet.r_, planet.r_, planet.r_);
-
-            // Set the matrix.
-            gl.uniformMatrix4fv(matrixLocation, false, matrix);
-
-            // Set the fudgeFactor
-            gl.uniform1f(fudgeLocation, fudgeFactor);
-
-            // Draw the geometry.
-            var primitiveType = gl.TRIANGLES;
-            var offset = 0;
-            var count = 16 * 6;
-            gl.drawArrays(primitiveType, offset, count);
-        }
-        */
-        //do this for every planet in the array
+        
 		/*var matrix = m4.projection(gl.canvas.clientWidth, gl.canvas.clientHeight, 400);
 		matrix = m4.translate(matrix, translation[0], translation[1], translation[2]);
 		matrix = m4.xRotate(matrix, rotation[0]);
@@ -409,29 +387,8 @@ function main() {
         translation[0] += 2;
         translation[1] += 1;
         translation[2] -= 0.1;
-        
+        */
 
-        //second F
-        
-        matrix = m4.projection(gl.canvas.clientWidth, gl.canvas.clientHeight, 400);
-        matrix = m4.translate(matrix, 100, 10, 0);
-        matrix = m4.xRotate(matrix, rotation[0]);
-        matrix = m4.yRotate(matrix, rotation[1]);
-        matrix = m4.zRotate(matrix, rotation[2]);
-        matrix = m4.scale(matrix, scale[0] * 2, scale[1] * 2, scale[2] * 2);
-
-        // Set the matrix.
-        gl.uniformMatrix4fv(matrixLocation, false, matrix);
-
-        // Set the fudgeFactor
-        gl.uniform1f(fudgeLocation, fudgeFactor);
-
-        // Draw the geometry.
-        var primitiveType = gl.TRIANGLES;
-        var offset = 0;
-        var count = 16 * 6;
-        gl.drawArrays(primitiveType, offset, count);
-    */
         //redraw
         setTimeout(function() { drawScene(); }, timeSlice);
 	}
