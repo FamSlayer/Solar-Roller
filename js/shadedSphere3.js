@@ -88,6 +88,8 @@ planets = [];
 var planets = [];
 
 function triangle(a, b, c) {
+    console.log(a + ", ");
+     //console.log(a + ", "  + b +  ", " + c + ", ");
 
      var t1 = subtract(b, a);
      var t2 = subtract(c, a);
@@ -237,6 +239,7 @@ window.onload = function init() {
         ballX += 1;
         console.log("ballX is now " + ballX);
         index = 0;
+        
         pointsArray = [];
         normalsArray = []; 
         //init();
@@ -316,8 +319,8 @@ function render(mProgram) {
     gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(projectionMatrix) );
     gl.uniformMatrix3fv(normalMatrixLoc, false, flatten(normalMatrix) );
 
+    //console.log("render");
 
-    
     for( var i=0; i<index; i+=3) 
         gl.drawArrays( gl.TRIANGLES, i, 3 );
 
