@@ -99,12 +99,15 @@ void main() {
 <script src="./js/webgl-utils.js"></script>
 <script src="./js/webgl-lessons-helper.js"></script>
 <script src="./js/Planet.js"></script>
+<script src="./js/Colors.js"></script>
 <script>
 "use strict";
 
 function main() {
 
     var timeSlice = 16;
+    //var numVerts = 3072;
+    var numVerts = 12;
 
     // hardcoding in our planets for now
     var p1 = new Planet(  1000,  600,   100,  1,  -50,  -20,   0, "top");
@@ -147,7 +150,8 @@ function main() {
 	// Bind it to ARRAY_BUFFER (think of it as ARRAY_BUFFER = colorBuffer)
 	gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
 	// Put geometry data into buffer
-	setColors(gl);
+   var gColor = new Colors();
+	setColors(gl, gColor.DefCol);
 
 
 
@@ -398,7 +402,8 @@ function main() {
 		gl.vertexAttribPointer(
 				colorLocation, size, type, normalize, stride, offset)
 
-        checkCollision();
+        update();
+/*        checkCollision();
         updateAccelerations();
 		// Compute the matrices
         //Planets[0].Opdate(times);
@@ -458,7 +463,7 @@ function main() {
 
         //redraw
         //setTimeout(function() { drawScene(); }, timeSlice);
-        setTimeout(function() { update(); }, timeSlice);
+        //setTimeout(function() { update(); }, timeSlice);
 	}
 
     function update(){
@@ -644,7 +649,7 @@ function setGeometry(gl) {
 	gl.bufferData(
 			gl.ARRAY_BUFFER,
 			new Float32Array([
-				/*
+				
 					// left column front
 					0,	 0,	0,
 					0, 150,	0,
@@ -652,7 +657,7 @@ function setGeometry(gl) {
 					0, 150,	0,
 					30, 150,	0,
 					30,	 0,	0,
-				*/
+				
 
 					// top rung front
 					30,	 0,	0,
@@ -777,11 +782,11 @@ function setGeometry(gl) {
 }
 
 // Fill the buffer with colors for the 'F'.
-function setColors(gl) {
-	gl.bufferData(
+function setColors(gl, colorArr) {
+	/*gl.bufferData(
 			gl.ARRAY_BUFFER,
 			new Uint8Array([
-				/*
+				
 					// left column front
 				200,	70, 120,
 				200,	70, 120,
@@ -789,7 +794,7 @@ function setColors(gl) {
 				200,	70, 120,
 				200,	70, 120,
 				200,	70, 120,
-				*/
+				
 
 					// top rung front
 				200,	70, 120,
@@ -911,6 +916,9 @@ function setColors(gl) {
 				160, 160, 220,
 				160, 160, 220]),
 			gl.STATIC_DRAW);
+    */
+    
+    gl.bufferData( gl.ARRAY_BUFFER, colorArr, gl.STATIC_DRAW);
 }
 
 main();
