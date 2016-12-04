@@ -110,6 +110,15 @@ function triangle(a, b, c) {
 function update(program){
     console.log("update called");
 
+    /*
+    console.log(pointsArray);
+    for(var x=0; x<pointsArray.Length; x++)
+    {
+        console.log(pointsArray[x]);
+    }
+    */
+
+
     index = 0;
     pointsArray = [];
     normalsArray = [];  
@@ -131,6 +140,11 @@ function update(program){
     var vBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, vBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, flatten(pointsArray), gl.STATIC_DRAW);
+    console.log(pointsArray.Length);
+    for(var x=0; x < pointsArray.length; x++)
+    {
+        console.log(pointsArray[x]);
+    }
     //gl.bufferData(gl.ARRAY_BUFFER, flatten(pointsArray), gl.DYNAMIC_DRAW);
     
     var vPosition = gl.getAttribLocation( program, "vPosition");
@@ -316,8 +330,9 @@ function render(mProgram) {
     gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(projectionMatrix) );
     gl.uniformMatrix3fv(normalMatrixLoc, false, flatten(normalMatrix) );
 
-
     
+    
+
     for( var i=0; i<index; i+=3) 
         gl.drawArrays( gl.TRIANGLES, i, 3 );
 
