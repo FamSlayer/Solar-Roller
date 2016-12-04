@@ -1,8 +1,9 @@
 // this is the planet yo
 var density = 10;
 
-var Planet = function( pos_x, pos_y, pos_z, rad, velx, vely, velz )
+var Planet = function( pos_x, pos_y, pos_z, rad, velx, vely, velz, name )
 {
+	this.name_ = name;
 	this.x_ = pos_x;
 	this.y_ = pos_y;
 	this.z_ = pos_z;
