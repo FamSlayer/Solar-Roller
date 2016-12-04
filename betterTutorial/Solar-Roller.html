@@ -425,6 +425,7 @@ function main() {
             var primitiveType = gl.TRIANGLES;
             var offset = 0;
             var count = 16 * 6;
+            count -= 6;
             gl.drawArrays(primitiveType, offset, count);
         }
         
@@ -643,6 +644,7 @@ function setGeometry(gl) {
 	gl.bufferData(
 			gl.ARRAY_BUFFER,
 			new Float32Array([
+				/*
 					// left column front
 					0,	 0,	0,
 					0, 150,	0,
@@ -650,6 +652,7 @@ function setGeometry(gl) {
 					0, 150,	0,
 					30, 150,	0,
 					30,	 0,	0,
+				*/
 
 					// top rung front
 					30,	 0,	0,
@@ -778,6 +781,7 @@ function setColors(gl) {
 	gl.bufferData(
 			gl.ARRAY_BUFFER,
 			new Uint8Array([
+				/*
 					// left column front
 				200,	70, 120,
 				200,	70, 120,
@@ -785,6 +789,7 @@ function setColors(gl) {
 				200,	70, 120,
 				200,	70, 120,
 				200,	70, 120,
+				*/
 
 					// top rung front
 				200,	70, 120,
