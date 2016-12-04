@@ -223,17 +223,20 @@ function main() {
                                                     (Planets[i].x_ - Planets[j].x_) * (Planets[i].x_ - Planets[j].x_));
                         //console.log("distance = " + distance + " and radius sum = " + (Planets[i].r_ + Planets[j].r_) );
                         if(distance < 100 * (Planets[i].r_ + Planets[j].r_ ) ){
-                            console.log("collision");
-                            
+                            //console.log("collision");
+                            //console.log("Planets[i].r_ = " + Planets[i].r_ + " Planets[j].r_ = " + Planets[j].r_);
+
 
                             //find the larger planet
                             var bigPlanet;
                             var smallPlanet;
-                            if(Planets[i].m_ > Planets[j]){
+                            if(Planets[i].m_ > Planets[j].m_){
+                                //console.log("i is bigger");
                                 bigPlanet = Planets[i];
                                 smallPlanet = Planets[j];
                                 toDelete.push(j);
                             } else{
+                                //console.log("j is bigger");
                                 bigPlanet = Planets[j];
                                 smallPlanet = Planets[i];
                                 toDelete.push(i);
