@@ -1,133 +1,56 @@
-var Colors = function(){
+var Colors = function(numVerts){
+	
+	//make red
+	var colArr = [];
+	for(var i = 0; i <numVerts; i++){
+		colArr.push(255);
+		colArr.push(0);
+		colArr.push(0);
+	}
+	this.RED = new Uint8Array(colArr);
 
-	this.DefCol = new Uint8Array([
-                
-                    // left column front
-                200,    70, 120,
-                200,    70, 120,
-                200,    70, 120,
-                200,    70, 120,
-                200,    70, 120,
-                200,    70, 120,
-                
+	colArr = [];
+	for(var i = 0; i <numVerts; i++){
+		colArr.push(0);
+		colArr.push(0);
+		colArr.push(255);
+	}
 
-                    // top rung front
-                200,    70, 120,
-                200,    70, 120,
-                200,    70, 120,
-                200,    70, 120,
-                200,    70, 120,
-                200,    70, 120,
+	this.BLUE = new Uint8Array(colArr);
 
-                    // middle rung front
-                200,    70, 120,
-                200,    70, 120,
-                200,    70, 120,
-                200,    70, 120,
-                200,    70, 120,
-                200,    70, 120,
+	colArr = [];
+	for(var i = 0; i <numVerts; i++){
+		colArr.push(0);
+		colArr.push(255);
+		colArr.push(0);
+	}
 
-                    // left column back
-                80, 70, 200,
-                80, 70, 200,
-                80, 70, 200,
-                80, 70, 200,
-                80, 70, 200,
-                80, 70, 200,
+	this.GREEN = new Uint8Array(colArr);
 
-                    // top rung back
-                80, 70, 200,
-                80, 70, 200,
-                80, 70, 200,
-                80, 70, 200,
-                80, 70, 200,
-                80, 70, 200,
+	colArr = [];
+	for(var i = 0; i <numVerts; i++){
+		colArr.push(0);
+		colArr.push(255);
+		colArr.push(229);
+	}
 
-                    // middle rung back
-                80, 70, 200,
-                80, 70, 200,
-                80, 70, 200,
-                80, 70, 200,
-                80, 70, 200,
-                80, 70, 200,
+	this.CYAN = new Uint8Array(colArr);
 
-                    // top
-                70, 200, 210,
-                70, 200, 210,
-                70, 200, 210,
-                70, 200, 210,
-                70, 200, 210,
-                70, 200, 210,
+	colArr = [];
+	for(var i = 0; i <numVerts; i++){
+		colArr.push(255);
+		colArr.push(0);
+		colArr.push(229);
+	}
 
-                    // top rung right
-                200, 200, 70,
-                200, 200, 70,
-                200, 200, 70,
-                200, 200, 70,
-                200, 200, 70,
-                200, 200, 70,
+	this.MAGENTA = new Uint8Array(colArr);
 
-                    // under top rung
-                210, 100, 70,
-                210, 100, 70,
-                210, 100, 70,
-                210, 100, 70,
-                210, 100, 70,
-                210, 100, 70,
+	colArr = [];
+	for(var i = 0; i <numVerts; i++){
+		colArr.push(255);
+		colArr.push(0);
+		colArr.push(229);
+	}
 
-                    // between top rung and middle
-                210, 160, 70,
-                210, 160, 70,
-                210, 160, 70,
-                210, 160, 70,
-                210, 160, 70,
-                210, 160, 70,
-
-                    // top of middle rung
-                70, 180, 210,
-                70, 180, 210,
-                70, 180, 210,
-                70, 180, 210,
-                70, 180, 210,
-                70, 180, 210,
-
-                    // right of middle rung
-                100, 70, 210,
-                100, 70, 210,
-                100, 70, 210,
-                100, 70, 210,
-                100, 70, 210,
-                100, 70, 210,
-
-                    // bottom of middle rung.
-                76, 210, 100,
-                76, 210, 100,
-                76, 210, 100,
-                76, 210, 100,
-                76, 210, 100,
-                76, 210, 100,
-
-                    // right of bottom
-                140, 210, 80,
-                140, 210, 80,
-                140, 210, 80,
-                140, 210, 80,
-                140, 210, 80,
-                140, 210, 80,
-
-                    // bottom
-                90, 130, 110,
-                90, 130, 110,
-                90, 130, 110,
-                90, 130, 110,
-                90, 130, 110,
-                90, 130, 110,
-
-                    // left side
-                160, 160, 220,
-                160, 160, 220,
-                160, 160, 220,
-                160, 160, 220,
-                160, 160, 220,
-                160, 160, 220]);
+	this.YELLLOW = new Uint8Array(colArr);
 };
