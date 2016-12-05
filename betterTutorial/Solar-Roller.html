@@ -58,7 +58,7 @@
 				<input class="gman-slider-slider" type="range" min="-300" max="300" value="0" id = "sliderVelZ">
 			</div>
 		</div>
-        <div id="mass">
+        <div id="radius">
             <div class="gman-slider-outer">
                 <div class="gman-slider-label">Radius</div>
                 <div class="gman-slider-value">50</div>
@@ -76,6 +76,7 @@
         </select>
         <!-- button to make -->
         <button id="createButton" onClick="textMakePlanet()">Create Planet</button>
+        <button id="pausePlay" onClick="pausePlay()">Play/Pause</button>
 	</div>
 </div>
 
@@ -125,8 +126,8 @@ var translation = [45, 150, 0];
 var initalVelocity = [0,0,0];
 var scale = [1, 1, 1];
 var fudgeFactor = 0;
-var planetMass;
-
+var planetMass = 50;
+var play = false;
 function textMakePlanet(){
     //get the info for the planets
     console.log("hello world");
@@ -164,6 +165,13 @@ function textMakePlanet(){
     }
 }
 
+function pausePlay () {
+    // body...
+    play = !play;
+    console.log("play is " + play);
+
+}
+
 var timeSlice = 16;
 var numVerts = 3072;
 var gColor = new Colors(numVerts);
@@ -171,10 +179,11 @@ var gColor = new Colors(numVerts);
 	// hardcoding in our planets for now
 	var p1 = new Planet(	1200,	300,	 -200,	100,	-50,	-20,	 0, "RED PLANET", gColor.RED);
 	var p2 = new Planet( 600, -50,	 500,	50, 10, 10,	 0, "BLUE PLANET", gColor.BLUE);
-	var p3 = new Planet( 150, 400,	 100,	 75,	1, 20,	 0, "CYAN PLANET", gColor.CYAN);
+	//var p3 = new Planet( 150, 400,	 100,	 75,	1, 20,	 0, "CYAN PLANET", gColor.CYAN);
 
 // global variable of the planets
-var Planets = [p1,p2,p3];
+//var Planets = [p1,p2,p3];
+var Planets = [p1,p2];
 
 function main() {
 
@@ -281,7 +290,7 @@ function main() {
 						var distance = Math.sqrt((Planets[i].x_ - Planets[j].x_) * (Planets[i].x_ - Planets[j].x_) +
 													(Planets[i].y_ - Planets[j].y_) * (Planets[i].y_ - Planets[j].y_) +
 													(Planets[i].z_ - Planets[j].z_) * (Planets[i].z_ - Planets[j].z_));
-						if(distance < (Planets[i].r_ + Planets[j].r_ ) ){
+                        if(distance < (Planets[i].r_ + Planets[j].r_ ) ){
 							//find the larger planet
 							var bigPlanet;
 							var smallPlanet;
@@ -358,7 +367,7 @@ function main() {
 	webglLessonsHelper.setupSlider("#velX", {value: initalVelocity[0], slide: updateVelocity(0), max: 300});
     webglLessonsHelper.setupSlider("#velY", {value: initalVelocity[1], slide: updateVelocity(1), max: 300});
     webglLessonsHelper.setupSlider("#velZ", {value: initalVelocity[2], slide: updateVelocity(2), max: 300});
-    webglLessonsHelper.setupSlider("#mass", {value: planetMass, slide: updateMass(), max: 1000});
+    webglLessonsHelper.setupSlider("#radius", {value: planetMass, slide: updateMass(), max: 1000});
 
 
 	function updateFudgeFactor(event, ui) {
@@ -433,40 +442,66 @@ function main() {
 		gl.vertexAttribPointer(
 				colorLocation, size, type, normalize, stride, offset)
 
+        //do an initial draw
+        for(var i = 0; i < Planets.length; i++){
+                var matrix = m4.projection(gl.canvas.clientWidth, gl.canvas.clientHeight, 2000);
+                //matrix = m4.perspective(degToRad(140), gl.canvas.clientWidth / gl.canvas.clientHeight, -1000, 1000);
+                //matrix = m4.translate(matrix, Planets[1].x_, Planets[1].y_, Planets[1].z_);
+                matrix = m4.translate(matrix, Planets[i].x_, Planets[i].y_, Planets[i].z_);
+                //matrix = m4.xRotate(matrix, rotation[0]);
+                //matrix = m4.yRotate(matrix, rotation[1]);
+                //matrix = m4.zRotate(matrix, rotation[2]);
+                matrix = m4.scale(matrix, Planets[i].r_, Planets[i].r_, Planets[i].r_);
+
+                // Set the matrix.
+                gl.uniformMatrix4fv(matrixLocation, false, matrix);
+
+                // Set the fudgeFactor
+                gl.uniform1f(fudgeLocation, fudgeFactor);
+
+                // Draw the geometry.
+                var primitiveType = gl.TRIANGLES;
+                var offset = 0;
+                //var count = 16 * 6;
+                setColors(gl, Planets[i].color_);
+                gl.drawArrays(primitiveType, offset, numVerts);
+            }
 		update();
 	}
 
 	function update(){
-		updateAccelerations();
-		checkCollision();
-		// Compute the matrices
-		//Planets[0].Opdate(times);
-		
-		for(var i = 0; i < Planets.length; i++){
-			Planets[i].Opdate(timeSlice/1000);
+        if(play){
+    		updateAccelerations();
+    		checkCollision();
+    		// Compute the matrices
+    		//Planets[0].Opdate(times);
+    		
+    		for(var i = 0; i < Planets.length; i++){
+    			Planets[i].Opdate(timeSlice/1000);
 
-			var matrix = m4.projection(gl.canvas.clientWidth, gl.canvas.clientHeight, 2000);
-			//matrix = m4.perspective(degToRad(140), gl.canvas.clientWidth / gl.canvas.clientHeight, -1000, 1000);
-			//matrix = m4.translate(matrix, Planets[1].x_, Planets[1].y_, Planets[1].z_);
-			matrix = m4.translate(matrix, Planets[i].x_, Planets[i].y_, Planets[i].z_);
-			//matrix = m4.xRotate(matrix, rotation[0]);
-			//matrix = m4.yRotate(matrix, rotation[1]);
-			//matrix = m4.zRotate(matrix, rotation[2]);
-			matrix = m4.scale(matrix, Planets[i].r_, Planets[i].r_, Planets[i].r_);
+    			var matrix = m4.projection(gl.canvas.clientWidth, gl.canvas.clientHeight, 2000);
+    			//matrix = m4.perspective(degToRad(140), gl.canvas.clientWidth / gl.canvas.clientHeight, -1000, 1000);
+    			//matrix = m4.translate(matrix, Planets[1].x_, Planets[1].y_, Planets[1].z_);
+    			matrix = m4.translate(matrix, Planets[i].x_, Planets[i].y_, Planets[i].z_);
+    			//matrix = m4.xRotate(matrix, rotation[0]);
+    			//matrix = m4.yRotate(matrix, rotation[1]);
+    			//matrix = m4.zRotate(matrix, rotation[2]);
+    			matrix = m4.scale(matrix, Planets[i].r_, Planets[i].r_, Planets[i].r_);
 
-			// Set the matrix.
-			gl.uniformMatrix4fv(matrixLocation, false, matrix);
+    			// Set the matrix.
+    			gl.uniformMatrix4fv(matrixLocation, false, matrix);
 
-			// Set the fudgeFactor
-			gl.uniform1f(fudgeLocation, fudgeFactor);
+    			// Set the fudgeFactor
+    			gl.uniform1f(fudgeLocation, fudgeFactor);
 
-			// Draw the geometry.
-			var primitiveType = gl.TRIANGLES;
-			var offset = 0;
-			//var count = 16 * 6;
-			setColors(gl, Planets[i].color_);
-			gl.drawArrays(primitiveType, offset, numVerts);
-		}
+    			// Draw the geometry.
+    			var primitiveType = gl.TRIANGLES;
+    			var offset = 0;
+    			//var count = 16 * 6;
+    			setColors(gl, Planets[i].color_);
+    			gl.drawArrays(primitiveType, offset, numVerts);
+    		}
+        }
 
 		// we should also draw a currentPlanet 
 		// which is the planet the user is specifying
