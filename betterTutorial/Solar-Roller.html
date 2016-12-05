@@ -118,6 +118,29 @@ function main() {
     // global variable of the planets
     var Planets = [p1,p2,p3];
 
+
+    //Lighting varaibles
+/*
+    var lightPosition = vec4(1.0, 1.0, 1.0, 0.0 );
+    var lightAmbient = vec4(0.2, 0.2, 0.2, 1.0 );
+    var lightDiffuse = vec4( 1.0, 1.0, 1.0, 1.0 );
+    var lightSpecular = vec4( 1.0, 1.0, 1.0, 1.0 );
+
+    var materialAmbient = vec4( 1.0, 0.0, 1.0, 1.0 );
+    var materialDiffuse = vec4( 1.0, 0.8, 0.0, 1.0 );
+    var materialSpecular = vec4( 1.0, 1.0, 1.0, 1.0 );
+    var materialShininess = 20.0;
+
+    var ctm;
+    var ambientColor, diffuseColor, specularColor;
+
+
+    var eye;
+    var at = vec3(0.0, 0.0, 0.0);
+    var up = vec3(0.0, 1.0, 0.0);
+*/
+
+
 	// Get A WebGL context
 	/** @type {HTMLCanvasElement} */
 	var canvas = document.getElementById("canvas");
@@ -229,7 +252,7 @@ function main() {
                                                     (Planets[i].x_ - Planets[j].x_) * (Planets[i].x_ - Planets[j].x_));
                         //console.log("distance = " + distance + " and radius sum = " + (Planets[i].r_ + Planets[j].r_) );
                         if(distance < (Planets[i].r_ + Planets[j].r_ ) ){
-                            //console.log("collision");
+                            console.log("collision");
                             //console.log("Planets[i].r_ = " + Planets[i].r_ + " Planets[j].r_ = " + Planets[j].r_);
 
 
