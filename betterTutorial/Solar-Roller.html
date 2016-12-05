@@ -216,7 +216,8 @@ var Planets = [p1,p2,p3,p4];
 
 // sun + planet + moon
 var p1 = new Planet(  1300/2, 700/2, 0, 200, 0, 0, 0, "sun", gColor.YELLOW);
-var p2 = new Planet(  1300*1.5, 700/2, 0, 20, 0, -100, 0, "planet", gColor.CYAN);
+var p2 = new Planet(  1300*1.3, 700/2, 0, 40, 0, -100, 0, "planet", gColor.CYAN);
+//var p3 = new Planet(  1300*1.4, 700/2, 0, 5, -100, -55, 0, "moon", gColor.RED);
 var Planets = [p1,p2];
 
 
@@ -326,7 +327,8 @@ function main() {
 						var distance = Math.sqrt((Planets[i].x_ - Planets[j].x_) * (Planets[i].x_ - Planets[j].x_) +
 													(Planets[i].y_ - Planets[j].y_) * (Planets[i].y_ - Planets[j].y_) +
 													(Planets[i].z_ - Planets[j].z_) * (Planets[i].z_ - Planets[j].z_));
-												if(distance < (Planets[i].r_ + Planets[j].r_ ) ){
+						if(distance < (Planets[i].r_ + Planets[j].r_ ) ){
+							console.log("collision!");
 							//find the larger planet
 							var bigPlanet;
 							var smallPlanet;
@@ -530,12 +532,12 @@ function main() {
 
         // put the result into cPosition
         //var centerPosition = [c_x + gl.canvas.clientWidth, c_y + gl.canvas.clientHeight, c_z - 500];
-        var centerPosition = [c_x, c_y, c_z - 500];
+        var centerPosition = [c_x, c_y, c_z - 100];
         centerPosition = [Planets[0].x_, Planets[0].y_, Planets[0].z_ ];
         // omg omg omg ok?
 
-        console.log("in update(): cameraAngleRadians: ");
-		console.log("X: " + cameraAngleRadiansX.toString() + "  Y: " + cameraAngleRadiansY.toString() +"  Z: " + cameraAngleRadiansZ.toString());
+        //console.log("in update(): cameraAngleRadians: ");
+		//console.log("X: " + cameraAngleRadiansX.toString() + "  Y: " + cameraAngleRadiansY.toString() +"  Z: " + cameraAngleRadiansZ.toString());
         var cameraMatrix = m4.xRotation(cameraAngleRadiansX);
         cameraMatrix = m4.multiply( cameraMatrix, m4.yRotation(cameraAngleRadiansY) );
         cameraMatrix = m4.multiply( cameraMatrix, m4.zRotation(cameraAngleRadiansZ) );
@@ -567,9 +569,6 @@ function main() {
             //matrix = m4.perspective(degToRad(140), gl.canvas.clientWidth / gl.canvas.clientHeight, -1000, 1000);
             //matrix = m4.translate(matrix, Planets[1].x_, Planets[1].y_, Planets[1].z_);
             var matrix = m4.translate(viewProjectionMatrix, Planets[i].x_, Planets[i].y_, Planets[i].z_);
-            //matrix = m4.xRotate(matrix, rotation[0]);
-            //matrix = m4.yRotate(matrix, rotation[1]);
-            //matrix = m4.zRotate(matrix, rotation[2]);
             matrix = m4.scale(matrix, Planets[i].r_, Planets[i].r_, Planets[i].r_);
 
             // Set the matrix.
