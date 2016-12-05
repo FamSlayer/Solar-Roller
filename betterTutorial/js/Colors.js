@@ -52,5 +52,5 @@ var Colors = function(numVerts){
 		colArr.push(0);
 	}
 
-	this.YELLLOW = new Uint8Array(colArr);
+	this.YELLOW = new Uint8Array(colArr);
 };

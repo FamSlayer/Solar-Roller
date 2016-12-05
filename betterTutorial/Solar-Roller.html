@@ -134,19 +134,20 @@ function textMakePlanet(){
             color = gColor.RED;
         } else if (mColor === "green"){
             //green
-            color = gColor.GREEN
+            color = gColor.GREEN;
         } else if (mColor === "blue"){
             //green
-            color = gColor.BLUE
+            color = gColor.BLUE;
         } else if (mColor === "cyan"){
             //green
-            color = gColor.CYAN
+            color = gColor.CYAN;
         } else if (mColor === "magenta"){
             //green
-            color = gColor.MAGENTA
+            color = gColor.MAGENTA;
         } else if (mColor === "yellow"){
-            //green
-            color = gColor.YELLOW
+            //yellow
+            console.log("it's yellow");
+            color = gColor.YELLOW;
         }
 
         //planetMass = Math.cbrt(planetMass * 3 / 4 / Math.PI / density) ;
@@ -355,10 +356,10 @@ function main() {
 	webglLessonsHelper.setupSlider("#x", {value: translation[0], slide: updatePosition(0), max: gl.canvas.width });
 	webglLessonsHelper.setupSlider("#y", {value: translation[1], slide: updatePosition(1), max: gl.canvas.height});
 	webglLessonsHelper.setupSlider("#z", {value: translation[2], slide: updatePosition(2), max: gl.canvas.height, min: -gl.canvas.height});
-	webglLessonsHelper.setupSlider("#velX", {value: initalVelocity[0], slide: updateVelocity(0), max: 300});
-    webglLessonsHelper.setupSlider("#velY", {value: initalVelocity[1], slide: updateVelocity(1), max: 300});
-    webglLessonsHelper.setupSlider("#velZ", {value: initalVelocity[2], slide: updateVelocity(2), max: 300});
-    webglLessonsHelper.setupSlider("#radius", {value: planetMass, slide: updateMass(), max: 1000});
+	webglLessonsHelper.setupSlider("#velX", {value: initalVelocity[0], slide: updateVelocity(0), max: 200, min: -200});
+    webglLessonsHelper.setupSlider("#velY", {value: initalVelocity[1], slide: updateVelocity(1), max: 200, min: -200});
+    webglLessonsHelper.setupSlider("#velZ", {value: initalVelocity[2], slide: updateVelocity(2), max: 200, min: -200});
+    webglLessonsHelper.setupSlider("#radius", {value: planetMass, slide: updateMass(), max: 200});
 
 
     function updateCameraAngle(event, ui) {
