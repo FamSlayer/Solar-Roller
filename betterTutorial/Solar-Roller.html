@@ -179,11 +179,10 @@ var gColor = new Colors(numVerts);
 	// hardcoding in our planets for now
 	var p1 = new Planet(	1200,	300,	 -200,	100,	-50,	-20,	 0, "RED PLANET", gColor.RED);
 	var p2 = new Planet( 600, -50,	 500,	50, 10, 10,	 0, "BLUE PLANET", gColor.BLUE);
-	//var p3 = new Planet( 150, 400,	 100,	 75,	1, 20,	 0, "CYAN PLANET", gColor.CYAN);
+	var p3 = new Planet( 150, 400,	 100,	 75,	1, 20,	 0, "CYAN PLANET", gColor.CYAN);
 
 // global variable of the planets
-//var Planets = [p1,p2,p3];
-var Planets = [p1,p2];
+var Planets = [p1,p2,p3];
 
 function main() {
 
@@ -503,28 +502,31 @@ function main() {
     		}
         }
 
+        //draw the planet that I am drawing
+        /*
+        var matrix = m4.projection(gl.canvas.clientWidth, gl.canvas.clientHeight, 1200);
+        matrix = m4.translate(matrix, translation[0], translation[1], translation[2]);
+        matrix = m4.scale(matrix, planetMass, planetMass, planetMass);
+
+        // Set the matrix.
+        gl.uniformMatrix4fv(matrixLocation, false, matrix);
+
+        // Set the fudgeFactor
+        gl.uniform1f(fudgeLocation, fudgeFactor);
+
+        // Draw the geometry.
+        var primitiveType = gl.TRIANGLES;
+        var offset = 0;
+        //var count = 16 * 6;
+        setColors(gl, gColor.RED);
+        gl.drawArrays(primitiveType, offset, numVerts);
+*/
 		// we should also draw a currentPlanet 
 		// which is the planet the user is specifying
 
 		setTimeout(function() { update();}, timeSlice);
 	}
-    //draw the shitty planet that I am drawing
-    var matrix = m4.projection(gl.canvas.clientWidth, gl.canvas.clientHeight, 1200);
-    matrix = m4.translate(matrix, translation[0], translation[1], translation[2]);
-    matrix = m4.scale(matrix, planetMass, planetMass, planetMass);
-
-    // Set the matrix.
-    gl.uniformMatrix4fv(matrixLocation, false, matrix);
-
-    // Set the fudgeFactor
-    gl.uniform1f(fudgeLocation, fudgeFactor);
-
-    // Draw the geometry.
-    var primitiveType = gl.TRIANGLES;
-    var offset = 0;
-    //var count = 16 * 6;
-    setColors(gl, gColor.RED);
-    gl.drawArrays(primitiveType, offset, numVerts);
+    
 
 }
 
