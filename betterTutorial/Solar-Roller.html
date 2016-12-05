@@ -61,13 +61,13 @@
 
         <div id="mass">
             <div class="gman-slider-outer">
-                <div class="gman-slider-label">Mass</div>
+                <div class="gman-slider-label">Radius</div>
                 <div class="gman-slider-value">50</div>
                 <input class="gman-slider-slider" type="range" min="1" max="1000" value="50" id = "mMass">
             </div>
         </div>
 
-        <select>
+        <select id="colorPicker">
             <option value = "red">Red</option>
             <option value = "green">Green</option>
             <option value = "blue">Blue</option>
@@ -122,35 +122,63 @@ void main() {
 <script src="./js/Colors.js"></script>
 <script>
 "use strict";
+
+var translation = [45, 150, 0];
+var initalVelocity = [0,0,0];
+var scale = [1, 1, 1];
+var fudgeFactor = 0;
+var planetMass;
+
 function textMakePlanet(){
     //get the info for the planets
-    var x = document.getElementById("sliderX").value;
-    var y = document.getElementById("sliderY").value;
-    var z = document.getElementById("sliderZ").value;
+    console.log("hello world");
+    console.log("velx = " + initalVelocity[0]);
+    var mColor = document.getElementById("colorPicker").value;
+    console.log("mcolor = " + mColor);
+    if(planetMass > 0){
+        //make the new planet
+        var color;
+        if(mColor === "red"){
+            //red
+            color = gColor.RED;
+        } else if (mColor === "green"){
+            //green
+            color = gColor.GREEN
+        } else if (mColor === "blue"){
+            //green
+            color = gColor.BLUE
+        } else if (mColor === "cyan"){
+            //green
+            color = gColor.CYAN
+        } else if (mColor === "magenta"){
+            //green
+            color = gColor.MAGENTA
+        } else if (mColor === "yellow"){
+            //green
+            color = gColor.YELLOW
+        }
 
-    var vx = document.getElementById("sliderVelX").value;
-    var vy = document.getElementById("sliderVelY").value;
-    var vz = document.getElementById("sliderVelZ").value;
-    
-    var mass = document.getElementById("mMass").value;
-    console.log("mMass is " + mass);
+        //planetMass = Math.cbrt(planetMass * 3 / 4 / Math.PI / density) ;
+        var newPlanet = new Planet(translation[0], translation[1], translation[2], planetMass, initalVelocity[0], initalVelocity[1], initalVelocity[2], "same", color); 
+        //newPlanet.AddMass(planetMass * density);
+        Planets.push(newPlanet);
+
+    }
 }
+
+
+var timeSlice = 16;
+var numVerts = 3072;
+var gColor = new Colors(numVerts);
+// hardcoding in our planets for now
+var p1 = new Planet(  1200,  600,   100,  100,  -50,  -20,   0, "RED PLANET", gColor.RED);
+var p2 = new Planet( 600, -50,   100,  50, 10, 10,   0, "BLUE PLANET", gColor.BLUE);
+var p3 = new Planet( 150, 400,   100,   75,  1, 20,   0, "CYAN PLANET", gColor.CYAN);
+
+// global variable of the planets
+var Planets = [p1,p2,p3];
+
 function main() {
-
-	var timeSlice = 16;
-	var numVerts = 3072;
-	var gColor = new Colors(numVerts);
-	//var numVerts = 16 * 6;
-
-	// hardcoding in our planets for now
-	var p1 = new Planet(  1200,  600,   100,  100,  -50,  -20,   0, "RED PLANET", gColor.RED);
-	var p2 = new Planet( 600, -50,   100,  50, 10, 10,   0, "BLUE PLANET", gColor.BLUE);
-	var p3 = new Planet( 150, 400,   100,   75,  1, 20,   0, "CYAN PLANET", gColor.CYAN);
-
-	// global variable of the planets
-	var Planets = [p1,p2,p3];
-
-
 
 	// Get A WebGL context
 	/** @type {HTMLCanvasElement} */
@@ -320,10 +348,7 @@ function main() {
 		return d * Math.PI / 180;
 	}
 
-	var translation = [45, 150, 0];
-	var rotation = [degToRad(40), degToRad(25), degToRad(325)];
-	var scale = [1, 1, 1];
-	var fudgeFactor = 0;
+	
 
 	drawScene();
 
@@ -332,12 +357,10 @@ function main() {
 	webglLessonsHelper.setupSlider("#x", {value: translation[0], slide: updatePosition(0), max: gl.canvas.width });
 	webglLessonsHelper.setupSlider("#y", {value: translation[1], slide: updatePosition(1), max: gl.canvas.height});
 	webglLessonsHelper.setupSlider("#z", {value: translation[2], slide: updatePosition(2), max: gl.canvas.height, min: -gl.canvas.height});
-	webglLessonsHelper.setupSlider("#velX", {value: radToDeg(rotation[0]), slide: updateRotation(0), max: 360});
-	webglLessonsHelper.setupSlider("#angleY", {value: radToDeg(rotation[1]), slide: updateRotation(1), max: 360});
-	webglLessonsHelper.setupSlider("#angleZ", {value: radToDeg(rotation[2]), slide: updateRotation(2), max: 360});
-	webglLessonsHelper.setupSlider("#scaleX", {value: scale[0], slide: updateScale(0), min: -5, max: 5, step: 0.01, precision: 2});
-	webglLessonsHelper.setupSlider("#scaleY", {value: scale[1], slide: updateScale(1), min: -5, max: 5, step: 0.01, precision: 2});
-	webglLessonsHelper.setupSlider("#scaleZ", {value: scale[2], slide: updateScale(2), min: -5, max: 5, step: 0.01, precision: 2});
+	webglLessonsHelper.setupSlider("#velX", {value: initalVelocity[0], slide: updateVelocity(0), max: 300});
+    webglLessonsHelper.setupSlider("#velY", {value: initalVelocity[1], slide: updateVelocity(1), max: 300});
+    webglLessonsHelper.setupSlider("#velZ", {value: initalVelocity[2], slide: updateVelocity(2), max: 300});
+    webglLessonsHelper.setupSlider("#mass", {value: planetMass, slide: updateMass(), max: 1000});
 
 
 	function updateFudgeFactor(event, ui) {
@@ -351,22 +374,16 @@ function main() {
 			//drawScene();
 		}
 	}
-
-	function updateRotation(index) {
-		return function(event, ui) {
-			var angleInDegrees = ui.value;
-			var angleInRadians = angleInDegrees * Math.PI / 180;
-			rotation[index] = angleInRadians;
-			//drawScene();
-		}
-	}
-
-	function updateScale(index) {
-		return function(event, ui) {
-			scale[index] = ui.value;
-			//drawScene();
-		}
-	}
+    function updateVelocity(index) {
+        return function(event, ui) {
+            initalVelocity[index]  = ui.value;
+        }
+    }
+    function updateMass(){
+        return function(event, ui) {
+            planetMass = ui.value;
+        }
+    }
 	
 	// Draw the scene.
 	function drawScene() {
@@ -455,7 +472,23 @@ function main() {
 
 		setTimeout(function() { update();}, timeSlice);
 	}
+    //draw the shitty planet that I am drawing
+    var matrix = m4.projection(gl.canvas.clientWidth, gl.canvas.clientHeight, 1200);
+    matrix = m4.translate(matrix, translation[0], translation[1], translation[2]);
+    matrix = m4.scale(matrix, planetMass, planetMass, planetMass);
 
+    // Set the matrix.
+    gl.uniformMatrix4fv(matrixLocation, false, matrix);
+
+    // Set the fudgeFactor
+    gl.uniform1f(fudgeLocation, fudgeFactor);
+
+    // Draw the geometry.
+    var primitiveType = gl.TRIANGLES;
+    var offset = 0;
+    //var count = 16 * 6;
+    setColors(gl, gColor.RED);
+    gl.drawArrays(primitiveType, offset, numVerts);
 
 }
 
