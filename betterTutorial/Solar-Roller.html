@@ -77,7 +77,7 @@
         <!-- button to make -->
         <button id="createButton" onClick="textMakePlanet()">Create Planet</button>
         <!--<button id="pausePlay" onClick="pausePlay()" value = "same">Play/Pause</button> -->
-        <input onClick = "pausePlay()" type="button" value="Play " id="pausePlay">
+        <input onClick = "pausePlay()" type="button" value="Pause " id="pausePlay">
         <button id="clearPlanets" onClick="clearPlanets()">Remove all Planets</button>
 
         <div id="cameraAngleX">
@@ -94,13 +94,7 @@
                 <input class="gman-slider-slider" type="range" min="1" max="1000" value="50" id = "mMass">
             </div>
         </div>
-        <div id="cameraAngleZ">
-            <div class="gman-slider-outer">
-                <div class="gman-slider-label">Camera Angle Z</div>
-                <div class="gman-slider-value">50</div>
-                <input class="gman-slider-slider" type="range" min="1" max="1000" value="50" id = "mMass">
-            </div>
-        </div>
+        
 	</div>
 </div>
 
@@ -143,7 +137,7 @@ var initalVelocity = [0,0,0];
 var scale = [1, 1, 1];
 var fudgeFactor = 0;
 var planetMass = 50;
-var play = false;
+var play = true;
 var gl;
 function textMakePlanet(){
     //get the info for the planets
@@ -414,9 +408,8 @@ function main() {
 	webglLessonsHelper.setupSlider("#velY", {value: initalVelocity[1], slide: updateVelocity(1), max: 200, min: -200});
 	webglLessonsHelper.setupSlider("#velZ", {value: initalVelocity[2], slide: updateVelocity(2), max: 200, min: -200});
 	webglLessonsHelper.setupSlider("#radius", {value: planetMass, slide: updateMass(), max: 200});
-    webglLessonsHelper.setupSlider("#cameraAngleX", {value: cameraAngleRadiansX, slide: updateCameraAngleX(), max: 360, min:0});
-    webglLessonsHelper.setupSlider("#cameraAngleY", {value: cameraAngleRadiansY, slide: updateCameraAngleY(), max: 360, min:0});
-    webglLessonsHelper.setupSlider("#cameraAngleZ", {value: cameraAngleRadiansZ, slide: updateCameraAngleZ(), max: 360, min:0});
+    webglLessonsHelper.setupSlider("#cameraAngleX", {value: cameraAngleRadiansX, slide: updateCameraAngleX(), max: 180, min:-180});
+    webglLessonsHelper.setupSlider("#cameraAngleY", {value: cameraAngleRadiansY, slide: updateCameraAngleY(), max: 180, min:-180});
 
 
 	function updateCameraAngleX(event, ui) {
@@ -431,11 +424,6 @@ function main() {
         }
     }
 
-    function updateCameraAngleZ(event, ui) {
-        return function(event, ui){
-            cameraAngleRadiansZ = degToRad(ui.value);
-        }
-    }
 
 	function updatePosition(index) {
 		return function(event, ui) {
@@ -505,88 +493,6 @@ function main() {
 		gl.vertexAttribPointer(
 				colorLocation, size, type, normalize, stride, offset)
 
-
-		//var numFs = 5;
-		var radius = 200;
-
-		var aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
-		var zNear = 1;
-		var zFar = 4000;
-		var projectionMatrix = m4.perspective(fieldOfViewRadians, aspect, zNear, zFar); 
-
-
-
-		// compute the location of the center of the system
-		var c_x = 0;
-		var c_y = 0;
-		var c_z = 0;
-		var total_mass = 0;
-		for(var q=0; q < Planets.length; q++)
-		{
-			c_x += Planets[q].x_ * Planets[q].m_;
-			c_y += Planets[q].y_ * Planets[q].m_;
-			c_z += Planets[q].z_ * Planets[q].m_;
-			total_mass += Planets[q].m_;
-		}
-		c_x = c_x / total_mass;
-        c_y = c_y / total_mass;
-        c_z = c_z / total_mass;
-
-		// put the result into centerPosition
-		//var centerPosition = [c_x + gl.canvas.clientWidth, c_y + gl.canvas.clientHeight, c_z - 500];
-		var centerPosition = [c_x, c_y, c_z - 800];
-
-		console.log("in draw(): cameraAngleRadians: ");
-		console.log("X: " + cameraAngleRadiansX.toString() + "  Y: " + cameraAngleRadiansY.toString() +"  Z: " + cameraAngleRadiansZ.toString());
-		var cameraMatrix = m4.xRotation(cameraAngleRadiansX);
-        cameraMatrix = m4.multiply( cameraMatrix, m4.yRotation(cameraAngleRadiansY) );
-        cameraMatrix = m4.multiply( cameraMatrix, m4.zRotation(cameraAngleRadiansZ) );
-
-        cameraMatrix = m4.translate(cameraMatrix, 0, 0, radius * 1.5);
-
-
-		var cameraPosition = [cameraMatrix[12], cameraMatrix[13], 1200,];
-		var up = [0, 1, 0];
-
-		//console.log(cameraPosition);
-		console.log("in draw(): cameraPosition = " + cameraPosition.toString());
-		//console.log("in draw(): centerposition = " + centerPosition.toString());
-		//console.log(up);
-		var cameraMatrix = m4.lookAt(cameraPosition, centerPosition, up);
-
-		// Make a view matrix from the camera matrix
-		var viewMatrix = m4.inverse(cameraMatrix);
-
-		// Compute a view projection matrix
-		var viewProjectionMatrix = m4.multiply(projectionMatrix, viewMatrix);
-
-
-
-
-		//do an initial draw
-		for(var i = 0; i < Planets.length; i++){
-			//var matrix = viewProjectionMatrix;
-			//matrix = m4.perspective(degToRad(140), gl.canvas.clientWidth / gl.canvas.clientHeight, -1000, 1000);
-			//matrix = m4.translate(matrix, Planets[1].x_, Planets[1].y_, Planets[1].z_);
-			var matrix = m4.translate(viewProjectionMatrix, Planets[i].x_, Planets[i].y_, Planets[i].z_);
-			//matrix = m4.xRotate(matrix, rotation[0]);
-			//matrix = m4.yRotate(matrix, rotation[1]);
-			//matrix = m4.zRotate(matrix, rotation[2]);
-			matrix = m4.scale(matrix, Planets[i].r_, Planets[i].r_, Planets[i].r_);
-
-			// Set the matrix.
-			gl.uniformMatrix4fv(matrixLocation, false, matrix);
-
-			// Set the fudgeFactor
-			//gl.uniform1f(fudgeLocation, fudgeFactor);
-
-			// Draw the geometry.
-			var primitiveType = gl.TRIANGLES;
-			var offset = 0;
-			//var count = 16 * 6;
-			setColors(gl, Planets[i].color_);
-			gl.drawArrays(primitiveType, offset, numVerts);
-		}
 		update();
 	}
 
