@@ -88,7 +88,7 @@ planets = [];
 var planets = [];
 
 function triangle(a, b, c) {
-    console.log(a + ", ");
+    //console.log(a + ", ");
      //console.log(a + ", "  + b +  ", " + c + ", ");
 
      var t1 = subtract(b, a);
@@ -142,10 +142,10 @@ function update(program){
     var vBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ARRAY_BUFFER, vBuffer);
     gl.bufferData(gl.ARRAY_BUFFER, flatten(pointsArray), gl.STATIC_DRAW);
-    console.log(pointsArray.Length);
-    for(var x=0; x < pointsArray.length; x++)
+    console.log(normalsArray.Length);
+    for(var x=0; x < normalsArray.length; x++)
     {
-        console.log(pointsArray[x]);
+        console.log(normalsArray[x]);
     }
     //gl.bufferData(gl.ARRAY_BUFFER, flatten(pointsArray), gl.DYNAMIC_DRAW);
     
