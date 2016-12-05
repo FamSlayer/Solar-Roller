@@ -520,8 +520,8 @@ function main() {
 
 
 		var cameraMatrix = m4.xRotation(cameraAngleRadiansX);
-        cameraMatrix = m4.multiply( cameraMatrix, m4.yRotation(camerAngleRadiansY) );
-        cameraMatrix = m4.multiply( cameraMatrix, m4.zRotation(camerAngleRadiansZ) );
+        cameraMatrix = m4.multiply( cameraMatrix, m4.yRotation(cameraAngleRadiansY) );
+        cameraMatrix = m4.multiply( cameraMatrix, m4.zRotation(cameraAngleRadiansZ) );
 
         cameraMatrix = m4.translate(cameraMatrix, 0, 0, radius * 1.5);
 
@@ -608,8 +608,8 @@ function main() {
 
 
         var cameraMatrix = m4.xRotation(cameraAngleRadiansX);
-        cameraMatrix = m4.multiply( cameraMatrix, m4.yRotation(camerAngleRadiansY) );
-        cameraMatrix = m4.multiply( cameraMatrix, m4.zRotation(camerAngleRadiansZ) );
+        cameraMatrix = m4.multiply( cameraMatrix, m4.yRotation(cameraAngleRadiansY) );
+        cameraMatrix = m4.multiply( cameraMatrix, m4.zRotation(cameraAngleRadiansZ) );
 
         cameraMatrix = m4.translate(cameraMatrix, 0, 0, radius * 1.5);
 
