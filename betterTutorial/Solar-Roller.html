@@ -64,12 +64,14 @@
 <!-- vertex shader -->
 <script id="3d-vertex-shader" type="x-shader/x-vertex">
 attribute vec4 a_position;
+attribute vec4 a_normal;
 attribute vec4 a_color;
 
 uniform mat4 u_matrix;
 uniform float u_fudgeFactor;
 
 varying vec4 v_color;
+varying vec3 v_light_weighting;
 
 void main() {
 	// Multiply the position by the matrix.
@@ -81,8 +83,12 @@ void main() {
 	// Divide x and y by z.
 	gl_Position = vec4(position.xy / zToDivideBy, position.zw);
 
+	vec3 transformed_normal = u_matrix * a_normal;
+
 	// Pass the color to the fragment shader.
 	v_color = a_color;
+	float directionalLightWeighting = max(dot(transformedNormal, uLightingDirection),0.0);
+	v_light_weighting = uAmbientColor + uDirectionalColor * directionalLightWeighting;
 }
 </script>
 <!-- fragment shader -->
@@ -119,25 +125,25 @@ function main() {
 	var Planets = [p1,p2,p3];
 
 
-    //Lighting varaibles
+	//Lighting varaibles
 /*
-    var lightPosition = vec4(1.0, 1.0, 1.0, 0.0 );
-    var lightAmbient = vec4(0.2, 0.2, 0.2, 1.0 );
-    var lightDiffuse = vec4( 1.0, 1.0, 1.0, 1.0 );
-    var lightSpecular = vec4( 1.0, 1.0, 1.0, 1.0 );
+	var lightPosition = vec4(1.0, 1.0, 1.0, 0.0 );
+	var lightAmbient = vec4(0.2, 0.2, 0.2, 1.0 );
+	var lightDiffuse = vec4( 1.0, 1.0, 1.0, 1.0 );
+	var lightSpecular = vec4( 1.0, 1.0, 1.0, 1.0 );
 
-    var materialAmbient = vec4( 1.0, 0.0, 1.0, 1.0 );
-    var materialDiffuse = vec4( 1.0, 0.8, 0.0, 1.0 );
-    var materialSpecular = vec4( 1.0, 1.0, 1.0, 1.0 );
-    var materialShininess = 20.0;
+	var materialAmbient = vec4( 1.0, 0.0, 1.0, 1.0 );
+	var materialDiffuse = vec4( 1.0, 0.8, 0.0, 1.0 );
+	var materialSpecular = vec4( 1.0, 1.0, 1.0, 1.0 );
+	var materialShininess = 20.0;
 
-    var ctm;
-    var ambientColor, diffuseColor, specularColor;
+	var ctm;
+	var ambientColor, diffuseColor, specularColor;
 
 
-    var eye;
-    var at = vec3(0.0, 0.0, 0.0);
-    var up = vec3(0.0, 1.0, 0.0);
+	var eye;
+	var at = vec3(0.0, 0.0, 0.0);
+	var up = vec3(0.0, 1.0, 0.0);
 */
 
 
