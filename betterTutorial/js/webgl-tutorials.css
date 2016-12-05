@@ -13,7 +13,7 @@ body {
 }
 
 canvas {
-  background-color: #fff;
+  background-color: #161616;
   border: 1px solid black;
   /* NOTE: This size is changed if in iframe - see below '.iframe canvas' */
   width: 1300px;
