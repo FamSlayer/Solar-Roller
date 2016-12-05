@@ -107,12 +107,13 @@ function main() {
 
     var timeSlice = 16;
     var numVerts = 3072;
+    var gColor = new Colors(numVerts);
     //var numVerts = 16 * 6;
 
     // hardcoding in our planets for now
-    var p1 = new Planet(  1200,  600,   100,  100,  -50,  -20,   0, "top");
-    var p2 = new Planet( 600, -50,   100,  50, 10, 10,   0, "left");
-    var p3 = new Planet( 150, 400,   100,   75,  1, 20,   0, "right");
+    var p1 = new Planet(  1200,  600,   100,  100,  -50,  -20,   0, "top", gColor.RED);
+    var p2 = new Planet( 600, -50,   100,  50, 10, 10,   0, "left", gColor.BLUE);
+    var p3 = new Planet( 150, 400,   100,   75,  1, 20,   0, "right", gColor.CYAN);
 
     // global variable of the planets
     var Planets = [p1,p2,p3];
@@ -150,7 +151,7 @@ function main() {
 	// Bind it to ARRAY_BUFFER (think of it as ARRAY_BUFFER = colorBuffer)
 	gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
 	// Put geometry data into buffer
-   var gColor = new Colors(numVerts);
+   
 	setColors(gl, gColor.RED);
 
 
@@ -160,7 +161,8 @@ function main() {
 	
 
 	// hardcode in our gravitational constant ecksdee
-	var grav_const = 6.674 * 0.0000001;
+	//var grav_const = 6.674 * 0.0000001;
+    var grav_const = 6.674 * 0.001;
 
 	// update function that redetermines the planets' accelerations
 	// this function is gonna be updateAccelerations
@@ -433,6 +435,7 @@ function main() {
             var primitiveType = gl.TRIANGLES;
             var offset = 0;
             //var count = 16 * 6;
+            setColors(gl, Planets[i].color_);
             gl.drawArrays(primitiveType, offset, numVerts);
         }
 
@@ -3666,12 +3669,12 @@ function setGeometry(gl) {
 
 // Fill the buffer with colors for the 'F'.
 function setColors(gl, colorArr) {
-	gl.bufferData(
+	/*gl.bufferData(
 			gl.ARRAY_BUFFER,
 			new Uint8Array([
 			]),
 			gl.STATIC_DRAW);
-    
+    */
     
     gl.bufferData( gl.ARRAY_BUFFER, colorArr, gl.STATIC_DRAW);
 }
