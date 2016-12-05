@@ -79,14 +79,6 @@
         <!--<button id="pausePlay" onClick="pausePlay()" value = "same">Play/Pause</button> -->
         <input onClick = "pausePlay()" type="button" value="Play " id="pausePlay">
         <button id="clearPlanets" onClick="clearPlanets()">Remove all Planets</button>
-
-        <div id="cameraAngle">
-            <div class="gman-slider-outer">
-                <div class="gman-slider-label">angle</div>
-                <div class="gman-slider-value">0</div>
-                <input class="gman-slider-slider" type="range" min="1" max="1000" value="50" id = "mMass">
-            </div>
-        </div>
 	</div>
 </div>
 
@@ -188,9 +180,9 @@ var numVerts = 3072;
 var gColor = new Colors(numVerts);
 // hardcoding in our planets for now
 	// hardcoding in our planets for now
-	var p1 = new Planet(	1200,	300,	 0,	100,	-50,	-20,	 0, "RED PLANET", gColor.RED);
-	var p2 = new Planet( 600, -50,	 100,	50, 10, 10,	 0, "BLUE PLANET", gColor.BLUE);
-	var p3 = new Planet( 150, 400,	 150,	 75,	1, 20,	 0, "CYAN PLANET", gColor.CYAN);
+	var p1 = new Planet(	1200,	300,	 -200,	100,	-50,	-20,	 0, "RED PLANET", gColor.RED);
+	var p2 = new Planet( 600, -50,	 500,	50, 10, 10,	 0, "BLUE PLANET", gColor.BLUE);
+	var p3 = new Planet( 150, 400,	 100,	 75,	1, 20,	 0, "CYAN PLANET", gColor.CYAN);
 
 // global variable of the planets
 var Planets = [p1,p2,p3];
@@ -364,7 +356,10 @@ function main() {
 		return d * Math.PI / 180;
 	}
 
-	var cameraAngleRadians = degToRad(0);
+	var cameraAngleRadiansX = degToRad(0);
+	var cameraAngleRadiansY = degToRad(0);
+	var cameraAngleRadiansZ = degToRad(0);
+
 	var fieldOfViewRadians = degToRad(60);
 
 	drawScene();
@@ -378,14 +373,10 @@ function main() {
 		webglLessonsHelper.setupSlider("#velY", {value: initalVelocity[1], slide: updateVelocity(1), max: 200, min: -200});
 		webglLessonsHelper.setupSlider("#velZ", {value: initalVelocity[2], slide: updateVelocity(2), max: 200, min: -200});
 		webglLessonsHelper.setupSlider("#radius", {value: planetMass, slide: updateMass(), max: 200});
-        webglLessonsHelper.setupSlider("#cameraAngle", {value: cameraAngleRadians, slide: updateCameraAngle(), max: 360, min: 0});
 
 
-	function updateCameraAngle(event, ui) {
-        return function(event, ui){
-            cameraAngleRadians = degToRad(ui.value);    
-        }
-		
+		function updateCameraAngle(event, ui) {
+		cameraAngleRadians = degToRad(ui.value);
 	}
 	function updatePosition(index) {
 		return function(event, ui) {
