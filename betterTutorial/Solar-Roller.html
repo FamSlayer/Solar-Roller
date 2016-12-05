@@ -20,52 +20,51 @@
 			<div class="gman-slider-outer">
 				<div class="gman-slider-label">x</div>
 				<div class="gman-slider-value">45</div>
-				<input class="gman-slider-slider" type="range" min="0" max="398" value="45">
+				<input class="gman-slider-slider" type="range" min="0" max="398" value="45" id = "sliderX">
 			</div>
 		</div>
 		<div id="y">
 			<div class="gman-slider-outer">
 				<div class="gman-slider-label">y</div>
 				<div class="gman-slider-value">150</div>
-				<input class="gman-slider-slider" type="range" min="0" max="298" value="150">
+				<input class="gman-slider-slider" type="range" min="0" max="298" value="150" id = "sliderY">
 			</div>
 		</div>
 		<div id="z">
 			<div class="gman-slider-outer">
 				<div class="gman-slider-label">z</div>
 				<div class="gman-slider-value">0</div>
-				<input class="gman-slider-slider" type="range" min="-298" max="298" value="0">
+				<input class="gman-slider-slider" type="range" min="-298" max="298" value="0" id = "sliderZ">
 			</div>
 		</div>
 		<div id="velX">
 			<div class="gman-slider-outer">
 				<div class="gman-slider-label">X velocity</div>
 				<div class="gman-slider-value">0</div>
-				<input class="gman-slider-slider" type="range" min="-300" max="300" value="0">
+				<input class="gman-slider-slider" type="range" min="-300" max="300" value="0" id = "sliderVelX">
 			</div>
 		</div>
 		<div id="velY">
 			<div class="gman-slider-outer">
 				<div class="gman-slider-label">Y velocity</div>
 				<div class="gman-slider-value">0</div>
-				<input class="gman-slider-slider" type="range" min="-300" max="300" value="0">
+				<input class="gman-slider-slider" type="range" min="-300" max="300" value="0" id = "sliderVelY">
 			</div>
 		</div>
 		<div id="velZ">
 			<div class="gman-slider-outer">
 				<div class="gman-slider-label">Z velocity</div>
 				<div class="gman-slider-value">0</div>
-				<input class="gman-slider-slider" type="range" min="-300" max="300" value="0">
+				<input class="gman-slider-slider" type="range" min="-300" max="300" value="0" id = "sliderVelZ">
 			</div>
 		</div>
-
-		<div id="mass">
-			<div class="gman-slider-outer">
-				<div class="gman-slider-label">Mass</div>
-				<div class="gman-slider-value">50</div>
-				<input class="gman-slider-slider" type="range" min="1" max="1000" value="50">
-			</div>
-		</div>
+        <div id="mass">
+            <div class="gman-slider-outer">
+                <div class="gman-slider-label">Mass</div>
+                <div class="gman-slider-value">50</div>
+                <input class="gman-slider-slider" type="range" min="1" max="1000" value="50" id = "mMass">
+            </div>
+        </div>
 
 		<select>
 			<option value = "red">Red</option>
@@ -75,9 +74,8 @@
 			<option value = "magenta">Magenta</option>
 			<option value = "yellow">Yellow</option>
 		</select>
-
-		<!-- button to make -->
-		<button type="createButton">Create Planet</button>
+        <!-- button to make -->
+        <button id="createButton" onClick="textMakePlanet()">Create Planet</button>
 	</div>
 </div>
 
@@ -122,7 +120,19 @@ void main() {
 <script src="./js/Colors.js"></script>
 <script>
 "use strict";
+function textMakePlanet(){
+    //get the info for the planets
+    var x = document.getElementById("sliderX").value;
+    var y = document.getElementById("sliderY").value;
+    var z = document.getElementById("sliderZ").value;
 
+    var vx = document.getElementById("sliderVelX").value;
+    var vy = document.getElementById("sliderVelY").value;
+    var vz = document.getElementById("sliderVelZ").value;
+    
+    var mass = document.getElementById("mMass").value;
+    console.log("mMass is " + mass);
+}
 function main() {
 
 	var timeSlice = 16;
@@ -137,29 +147,6 @@ function main() {
 
 	// global variable of the planets
 	var Planets = [p1,p2,p3];
-
-
-	//Lighting varaibles
-/*
-	var lightPosition = vec4(1.0, 1.0, 1.0, 0.0 );
-	var lightAmbient = vec4(0.2, 0.2, 0.2, 1.0 );
-	var lightDiffuse = vec4( 1.0, 1.0, 1.0, 1.0 );
-	var lightSpecular = vec4( 1.0, 1.0, 1.0, 1.0 );
-
-	var materialAmbient = vec4( 1.0, 0.0, 1.0, 1.0 );
-	var materialDiffuse = vec4( 1.0, 0.8, 0.0, 1.0 );
-	var materialSpecular = vec4( 1.0, 1.0, 1.0, 1.0 );
-	var materialShininess = 20.0;
-
-	var ctm;
-	var ambientColor, diffuseColor, specularColor;
-
-
-	var eye;
-	var at = vec3(0.0, 0.0, 0.0);
-	var up = vec3(0.0, 1.0, 0.0);
-*/
-
 
 	// Get A WebGL context
 	/** @type {HTMLCanvasElement} */
@@ -337,16 +324,17 @@ function main() {
 	drawScene();
 
 	// Setup a ui.
-	webglLessonsHelper.setupSlider("#fudgeFactor", {value: fudgeFactor, slide: updateFudgeFactor, max: 2, step: 0.001, precision: 3 });
+	//webglLessonsHelper.setupSlider("#fudgeFactor", {value: fudgeFactor, slide: updateFudgeFactor, max: 2, step: 0.001, precision: 3 });
 	webglLessonsHelper.setupSlider("#x", {value: translation[0], slide: updatePosition(0), max: gl.canvas.width });
 	webglLessonsHelper.setupSlider("#y", {value: translation[1], slide: updatePosition(1), max: gl.canvas.height});
 	webglLessonsHelper.setupSlider("#z", {value: translation[2], slide: updatePosition(2), max: gl.canvas.height, min: -gl.canvas.height});
-	webglLessonsHelper.setupSlider("#angleX", {value: radToDeg(rotation[0]), slide: updateRotation(0), max: 360});
+	webglLessonsHelper.setupSlider("#velX", {value: radToDeg(rotation[0]), slide: updateRotation(0), max: 360});
 	webglLessonsHelper.setupSlider("#angleY", {value: radToDeg(rotation[1]), slide: updateRotation(1), max: 360});
 	webglLessonsHelper.setupSlider("#angleZ", {value: radToDeg(rotation[2]), slide: updateRotation(2), max: 360});
 	webglLessonsHelper.setupSlider("#scaleX", {value: scale[0], slide: updateScale(0), min: -5, max: 5, step: 0.01, precision: 2});
 	webglLessonsHelper.setupSlider("#scaleY", {value: scale[1], slide: updateScale(1), min: -5, max: 5, step: 0.01, precision: 2});
 	webglLessonsHelper.setupSlider("#scaleZ", {value: scale[2], slide: updateScale(2), min: -5, max: 5, step: 0.01, precision: 2});
+
 
 	function updateFudgeFactor(event, ui) {
 		fudgeFactor = ui.value;
@@ -442,9 +430,9 @@ function main() {
 			//matrix = m4.perspective(degToRad(140), gl.canvas.clientWidth / gl.canvas.clientHeight, -1000, 1000);
 			//matrix = m4.translate(matrix, Planets[1].x_, Planets[1].y_, Planets[1].z_);
 			matrix = m4.translate(matrix, Planets[i].x_, Planets[i].y_, Planets[i].z_);
-			matrix = m4.xRotate(matrix, rotation[0]);
-			matrix = m4.yRotate(matrix, rotation[1]);
-			matrix = m4.zRotate(matrix, rotation[2]);
+			//matrix = m4.xRotate(matrix, rotation[0]);
+			//matrix = m4.yRotate(matrix, rotation[1]);
+			//matrix = m4.zRotate(matrix, rotation[2]);
 			matrix = m4.scale(matrix, Planets[i].r_, Planets[i].r_, Planets[i].r_);
 
 			// Set the matrix.
