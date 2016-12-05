@@ -228,7 +228,6 @@ function main() {
 	function checkCollision(){
 		var toDelete = [];
 
-<<<<<<< HEAD
 		for ( var i = 0; i < Planets.length; i++ )
 		{	//see if toDelete contains i
 			var mFlag = false;
@@ -405,7 +404,7 @@ function main() {
 		var stride = 0;							 // 0 = move forward size * sizeof(type) each iteration to get the next position
 		var offset = 0;							 // start at the beginning of the buffer
 		gl.vertexAttribPointer(
-				colorLocation, size, type, normalize, stride, offset)
+				colorLocation, size, type, normalize, stride, offset);
 
 		update();
 	}
@@ -6754,8 +6753,8 @@ function setNormals(gl) {
                 0, -0.942808958001, -0.333333569735
             ];
 
-
-	gl.bufferData( gl.ARRAY_BUFFER, 
+    gl.bufferData(gl.ARRAY_BUFFER, new WebGLFloatArray(sphereNormals), gl.STATIC_DRAW);
+	/*gl.bufferData( gl.ARRAY_BUFFER, 
 		new Float32Array([
 				-0.102807001377, 0.0593556216109, -0.992928814493,
 				-0.102807001377, 0.0593556216109, -0.992928814493,
@@ -9831,7 +9830,7 @@ function setNormals(gl) {
 				0, -0.942808958001, -0.333333569735
 		]),
 		gl.STATIC_DRAW);
-
+    */
     
 }
 
