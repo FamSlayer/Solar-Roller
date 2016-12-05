@@ -59,25 +59,25 @@
 			</div>
 		</div>
 
-        <div id="mass">
-            <div class="gman-slider-outer">
-                <div class="gman-slider-label">Mass</div>
-                <div class="gman-slider-value">50</div>
-                <input class="gman-slider-slider" type="range" min="1" max="1000" value="50">
-            </div>
-        </div>
+		<div id="mass">
+			<div class="gman-slider-outer">
+				<div class="gman-slider-label">Mass</div>
+				<div class="gman-slider-value">50</div>
+				<input class="gman-slider-slider" type="range" min="1" max="1000" value="50">
+			</div>
+		</div>
 
-        <select>
-            <option value = "red">Red</option>
-            <option value = "green">Green</option>
-            <option value = "blue">Blue</option>
-            <option value = "cyan">Cyan</option>
-            <option value = "magenta">Magenta</option>
-            <option value = "yellow">Yellow</option>
-        </select>
+		<select>
+			<option value = "red">Red</option>
+			<option value = "green">Green</option>
+			<option value = "blue">Blue</option>
+			<option value = "cyan">Cyan</option>
+			<option value = "magenta">Magenta</option>
+			<option value = "yellow">Yellow</option>
+		</select>
 
-        <!-- button to make -->
-        <button type="createButton">Create Planet</button>
+		<!-- button to make -->
+		<button type="createButton">Create Planet</button>
 	</div>
 </div>
 
@@ -131,33 +131,33 @@ function main() {
 	//var numVerts = 16 * 6;
 
 	// hardcoding in our planets for now
-	var p1 = new Planet(  1200,  300,   -200,  100,  -50,  -20,   0, "RED PLANET", gColor.RED);
-	var p2 = new Planet( 600, -50,   600,  50, 10, 10,   0, "BLUE PLANET", gColor.BLUE);
-	var p3 = new Planet( 150, 400,   100,   75,  1, 20,   0, "CYAN PLANET", gColor.CYAN);
+	var p1 = new Planet(	1200,	300,	 -200,	100,	-50,	-20,	 0, "RED PLANET", gColor.RED);
+	var p2 = new Planet( 600, -50,	 500,	50, 10, 10,	 0, "BLUE PLANET", gColor.BLUE);
+	var p3 = new Planet( 150, 400,	 100,	 75,	1, 20,	 0, "CYAN PLANET", gColor.CYAN);
 
 	// global variable of the planets
 	var Planets = [p1,p2,p3];
 
 
-    //Lighting varaibles
+	//Lighting varaibles
 /*
-    var lightPosition = vec4(1.0, 1.0, 1.0, 0.0 );
-    var lightAmbient = vec4(0.2, 0.2, 0.2, 1.0 );
-    var lightDiffuse = vec4( 1.0, 1.0, 1.0, 1.0 );
-    var lightSpecular = vec4( 1.0, 1.0, 1.0, 1.0 );
+	var lightPosition = vec4(1.0, 1.0, 1.0, 0.0 );
+	var lightAmbient = vec4(0.2, 0.2, 0.2, 1.0 );
+	var lightDiffuse = vec4( 1.0, 1.0, 1.0, 1.0 );
+	var lightSpecular = vec4( 1.0, 1.0, 1.0, 1.0 );
 
-    var materialAmbient = vec4( 1.0, 0.0, 1.0, 1.0 );
-    var materialDiffuse = vec4( 1.0, 0.8, 0.0, 1.0 );
-    var materialSpecular = vec4( 1.0, 1.0, 1.0, 1.0 );
-    var materialShininess = 20.0;
+	var materialAmbient = vec4( 1.0, 0.0, 1.0, 1.0 );
+	var materialDiffuse = vec4( 1.0, 0.8, 0.0, 1.0 );
+	var materialSpecular = vec4( 1.0, 1.0, 1.0, 1.0 );
+	var materialShininess = 20.0;
 
-    var ctm;
-    var ambientColor, diffuseColor, specularColor;
+	var ctm;
+	var ambientColor, diffuseColor, specularColor;
 
 
-    var eye;
-    var at = vec3(0.0, 0.0, 0.0);
-    var up = vec3(0.0, 1.0, 0.0);
+	var eye;
+	var at = vec3(0.0, 0.0, 0.0);
+	var up = vec3(0.0, 1.0, 0.0);
 */
 
 
@@ -194,7 +194,7 @@ function main() {
 	// Bind it to ARRAY_BUFFER (think of it as ARRAY_BUFFER = colorBuffer)
 	gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
 	// Put geometry data into buffer
-   
+	 
 	setColors(gl, gColor.RED);
 
 
@@ -332,7 +332,7 @@ function main() {
 	var translation = [45, 150, 0];
 	var rotation = [degToRad(40), degToRad(25), degToRad(325)];
 	var scale = [1, 1, 1];
-	var fudgeFactor = .7;
+	var fudgeFactor = 0.5;
 
 	drawScene();
 
@@ -436,11 +436,11 @@ function main() {
 		//Planets[0].Opdate(times);
 		
 		for(var i = 0; i < Planets.length; i++){
-			
-
 			Planets[i].Opdate(timeSlice/1000);
 
-			var matrix = m4.projection(gl.canvas.clientWidth, gl.canvas.clientHeight, 1200);
+			var matrix = m4.projection(gl.canvas.clientWidth, gl.canvas.clientHeight, 2000);
+			//matrix = m4.perspective(degToRad(140), gl.canvas.clientWidth / gl.canvas.clientHeight, -1000, 1000);
+			//matrix = m4.translate(matrix, Planets[1].x_, Planets[1].y_, Planets[1].z_);
 			matrix = m4.translate(matrix, Planets[i].x_, Planets[i].y_, Planets[i].z_);
 			matrix = m4.xRotate(matrix, rotation[0]);
 			matrix = m4.yRotate(matrix, rotation[1]);
@@ -461,6 +461,9 @@ function main() {
 			gl.drawArrays(primitiveType, offset, numVerts);
 		}
 
+		// we should also draw a currentPlanet 
+		// which is the planet the user is specifying
+
 		setTimeout(function() { update();}, timeSlice);
 	}
 
@@ -470,12 +473,28 @@ function main() {
 var m4 = {
 
 	projection: function(width, height, depth) {
+		var sx = 0.0000;
+		var sy = 0.0000;
+		var sz = 0.0000;
+
 		// Note: This matrix flips the Y axis so 0 is at the top.
 		return [
-			 2 / width, 0, 0, 0,
-			 0, -2 / height, 0, 0,
-			 0, 0, 2 / depth, 0,
+			 2 / width, sy, sz, 0,
+			 sx, -2 / height, sz, 0,
+			 sx, sy, 2 / depth, 0,
 			-1, 1, 0, 1,
+		];
+	},
+
+	perspective: function(fieldOfViewInRadians, aspect, near, far) {
+		var f = Math.tan(Math.PI * 0.5 - 0.5 * fieldOfViewInRadians);
+		var rangeInv = 1.0 / (near - far);
+	 
+		return [
+			f / aspect, 0, 0, 0,
+			0, f, 0, 0,
+			0, 0, (near + far) * rangeInv, -1,
+			0, 0, near * far * rangeInv * 2, 0
 		];
 	},
 
@@ -3697,7 +3716,7 @@ function setColors(gl, colorArr) {
 function setNormals(gl) {
 	gl.bufferData( gl.ARRAY_BUFFER, 
 		new Float32Array([
-			-0.102807001377, 0.0593556216109, -0.992928814493,
+				-0.102807001377, 0.0593556216109, -0.992928814493,
 				-0.102807001377, 0.0593556216109, -0.992928814493,
 				-0.102807001377, 0.0593556216109, -0.992928814493,
 				-0.101368427797, 0.177247771801, -0.978931902247,
