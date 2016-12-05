@@ -211,14 +211,19 @@ var p3 = new Planet( 150, 400,	 100,	 75,	1, 20,	 0, "CYAN PLANET", gColor.CYAN)
 var Planets = [p1,p2,p3];
 */
 
-
+/*
+// double double
 var p1 = new Planet(  50,  50, 0, 90,  50,  -25, 0,      "red",    gColor.RED);
 var p2 = new Planet( 850,  50, 0, 90,   25,  50, 0,     "blue",   gColor.BLUE);
 var p3 = new Planet( 850, 850, 0, 90, -50,   25, 0,     "cyan",   gColor.CYAN);
 var p4 = new Planet(  50, 850, 0, 90,  -25, -50, 0,   "yellow", gColor.YELLOW);
 var Planets = [p1,p2,p3,p4];
+*/
 
-
+// sun + planet + moon
+var p1 = new Planet(  1300/2, 700/2, 0, 200, 0, 0, 0, "sun", gColor.YELLOW);
+var p2 = new Planet(  1300*1.5, 700/2, 0, 20, 0, -100, 0, "planet", gColor.CYAN);
+var Planets = [p1,p2];
 
 
 var cameraAngleRadians = 0;
@@ -620,6 +625,7 @@ function main() {
         // put the result into cPosition
         //var centerPosition = [c_x + gl.canvas.clientWidth, c_y + gl.canvas.clientHeight, c_z - 500];
         var centerPosition = [c_x, c_y, c_z - 500];
+        centerPosition = [Planets[0].x_, Planets[0].y_, Planets[0].z_ ];
         // omg omg omg ok?
 
         console.log("in update(): cameraAngleRadians: ");
