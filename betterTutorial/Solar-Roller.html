@@ -201,13 +201,25 @@ var timeSlice = 16;
 var numVerts = 3072;
 var gColor = new Colors(numVerts);
 // hardcoding in our planets for now
-	// hardcoding in our planets for now
-	var p1 = new Planet(	1200,	300,	 -200,	100,	-50,	-20,	 0, "RED PLANET", gColor.RED);
-	var p2 = new Planet( 600, -50,	 500,	50, 10, 10,	 0, "BLUE PLANET", gColor.BLUE);
-	var p3 = new Planet( 150, 400,	 100,	 75,	1, 20,	 0, "CYAN PLANET", gColor.CYAN);
+
+/*
+var p1 = new Planet(	1200,	300,	 -200,	100,	-50,	-20,	 0, "RED PLANET", gColor.RED);
+var p2 = new Planet( 600, -50,	 500,	50, 10, 10,	 0, "BLUE PLANET", gColor.BLUE);
+var p3 = new Planet( 150, 400,	 100,	 75,	1, 20,	 0, "CYAN PLANET", gColor.CYAN);
 
 // global variable of the planets
 var Planets = [p1,p2,p3];
+*/
+
+
+var p1 = new Planet(  50,  50, 0, 90,  50,  -25, 0,      "red",    gColor.RED);
+var p2 = new Planet( 850,  50, 0, 90,   25,  50, 0,     "blue",   gColor.BLUE);
+var p3 = new Planet( 850, 850, 0, 90, -50,   25, 0,     "cyan",   gColor.CYAN);
+var p4 = new Planet(  50, 850, 0, 90,  -25, -50, 0,   "yellow", gColor.YELLOW);
+var Planets = [p1,p2,p3,p4];
+
+
+
 
 var cameraAngleRadians = 0;
 
@@ -394,12 +406,12 @@ function main() {
 	webglLessonsHelper.setupSlider("#y", {value: translation[1], slide: updatePosition(1), max: gl.canvas.height});
 	webglLessonsHelper.setupSlider("#z", {value: translation[2], slide: updatePosition(2), max: gl.canvas.height, min: -gl.canvas.height});
 	webglLessonsHelper.setupSlider("#velX", {value: initalVelocity[0], slide: updateVelocity(0), max: 200, min: -200});
-		webglLessonsHelper.setupSlider("#velY", {value: initalVelocity[1], slide: updateVelocity(1), max: 200, min: -200});
-		webglLessonsHelper.setupSlider("#velZ", {value: initalVelocity[2], slide: updateVelocity(2), max: 200, min: -200});
-		webglLessonsHelper.setupSlider("#radius", {value: planetMass, slide: updateMass(), max: 200});
-        webglLessonsHelper.setupSlider("#cameraAngleX", {value: cameraAngleRadiansX, slide: updateCameraAngleX(), max: 360, min:0});
-        webglLessonsHelper.setupSlider("#cameraAngleY", {value: cameraAngleRadiansY, slide: updateCameraAngleY(), max: 360, min:0});
-        webglLessonsHelper.setupSlider("#cameraAngleZ", {value: cameraAngleRadiansZ, slide: updateCameraAngleZ(), max: 360, min:0});
+	webglLessonsHelper.setupSlider("#velY", {value: initalVelocity[1], slide: updateVelocity(1), max: 200, min: -200});
+	webglLessonsHelper.setupSlider("#velZ", {value: initalVelocity[2], slide: updateVelocity(2), max: 200, min: -200});
+	webglLessonsHelper.setupSlider("#radius", {value: planetMass, slide: updateMass(), max: 200});
+    webglLessonsHelper.setupSlider("#cameraAngleX", {value: cameraAngleRadiansX, slide: updateCameraAngleX(), max: 360, min:0});
+    webglLessonsHelper.setupSlider("#cameraAngleY", {value: cameraAngleRadiansY, slide: updateCameraAngleY(), max: 360, min:0});
+    webglLessonsHelper.setupSlider("#cameraAngleZ", {value: cameraAngleRadiansZ, slide: updateCameraAngleZ(), max: 360, min:0});
 
 
 	function updateCameraAngleX(event, ui) {
@@ -494,7 +506,7 @@ function main() {
 
 		var aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
 		var zNear = 1;
-		var zFar = 2000;
+		var zFar = 4000;
 		var projectionMatrix = m4.perspective(fieldOfViewRadians, aspect, zNear, zFar); 
 
 
@@ -511,14 +523,16 @@ function main() {
 			c_z += Planets[q].z_ * Planets[q].m_;
 			total_mass += Planets[q].m_;
 		}
-		c_x /= total_mass;
-		c_y /= total_mass;
-		c_z /= total_mass;
+		c_x = c_x / total_mass;
+        c_y = c_y / total_mass;
+        c_z = c_z / total_mass;
 
 		// put the result into centerPosition
-		var centerPosition = [c_x + gl.canvas.clientWidth, c_y + gl.canvas.clientHeight, c_z - 500];
+		//var centerPosition = [c_x + gl.canvas.clientWidth, c_y + gl.canvas.clientHeight, c_z - 500];
+		var centerPosition = [c_x, c_y, c_z - 800];
 
-
+		console.log("in draw(): cameraAngleRadians: ");
+		console.log("X: " + cameraAngleRadiansX.toString() + "  Y: " + cameraAngleRadiansY.toString() +"  Z: " + cameraAngleRadiansZ.toString());
 		var cameraMatrix = m4.xRotation(cameraAngleRadiansX);
         cameraMatrix = m4.multiply( cameraMatrix, m4.yRotation(cameraAngleRadiansY) );
         cameraMatrix = m4.multiply( cameraMatrix, m4.zRotation(cameraAngleRadiansZ) );
@@ -526,12 +540,13 @@ function main() {
         cameraMatrix = m4.translate(cameraMatrix, 0, 0, radius * 1.5);
 
 
-		var cameraPosition = [cameraMatrix[12], cameraMatrix[13], cameraMatrix[14],];
+		var cameraPosition = [cameraMatrix[12], cameraMatrix[13], 1200,];
 		var up = [0, 1, 0];
 
-		console.log(cameraPosition);
-		console.log(centerPosition);
-		console.log(up);
+		//console.log(cameraPosition);
+		console.log("in draw(): cameraPosition = " + cameraPosition.toString());
+		//console.log("in draw(): centerposition = " + centerPosition.toString());
+		//console.log(up);
 		var cameraMatrix = m4.lookAt(cameraPosition, centerPosition, up);
 
 		// Make a view matrix from the camera matrix
@@ -581,7 +596,7 @@ function main() {
 
         var aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
         var zNear = 1;
-        var zFar = 2000;
+        var zFar = 4000;
         var projectionMatrix = m4.perspective(fieldOfViewRadians, aspect, zNear, zFar); 
 
 
@@ -598,15 +613,17 @@ function main() {
             c_z += Planets[q].z_ * Planets[q].m_;
             total_mass += Planets[q].m_;
         }
-        c_x /= total_mass;
-        c_y /= total_mass;
-        c_z /= total_mass;
+        c_x = c_x / total_mass;
+        c_y = c_y / total_mass;
+        c_z = c_z / total_mass;
 
         // put the result into cPosition
-        var centerPosition = [c_x + gl.canvas.clientWidth, c_y + gl.canvas.clientHeight, c_z - 500];
+        //var centerPosition = [c_x + gl.canvas.clientWidth, c_y + gl.canvas.clientHeight, c_z - 500];
+        var centerPosition = [c_x, c_y, c_z - 500];
         // omg omg omg ok?
 
-
+        console.log("in update(): cameraAngleRadians: ");
+		console.log("X: " + cameraAngleRadiansX.toString() + "  Y: " + cameraAngleRadiansY.toString() +"  Z: " + cameraAngleRadiansZ.toString());
         var cameraMatrix = m4.xRotation(cameraAngleRadiansX);
         cameraMatrix = m4.multiply( cameraMatrix, m4.yRotation(cameraAngleRadiansY) );
         cameraMatrix = m4.multiply( cameraMatrix, m4.zRotation(cameraAngleRadiansZ) );
@@ -617,9 +634,9 @@ function main() {
         var cameraPosition = [cameraMatrix[12], cameraMatrix[13], cameraMatrix[14],];
         var up = [0, 1, 0];
 
-        console.log(cameraPosition);
-        console.log(centerPosition);
-        //console.log(up);
+        //console.log(cameraPosition);
+		//console.log("in update(): cameraPosition = " + cameraPosition.toString());
+		//console.log(up);
         var cameraMatrix = m4.lookAt(cameraPosition, centerPosition, up);
 
         // Make a view matrix from the camera matrix
@@ -741,9 +758,6 @@ var m4 = {
 		var zAxis = normalize( subtractVectors(cameraPosition, target) );
 		var xAxis = cross(up, zAxis);
 		var yAxis = cross(zAxis, xAxis);
-		console.log(zAxis);
-		console.log(xAxis);
-		console.log(yAxis);
 
 		return [
 			xAxis[0], xAxis[1], xAxis[2], 0,
