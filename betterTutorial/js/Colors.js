@@ -48,8 +48,8 @@ var Colors = function(numVerts){
 	colArr = [];
 	for(var i = 0; i <numVerts; i++){
 		colArr.push(255);
+		colArr.push(255);
 		colArr.push(0);
-		colArr.push(229);
 	}
 
 	this.YELLLOW = new Uint8Array(colArr);
