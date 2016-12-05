@@ -471,7 +471,7 @@ function main() {
 		c_z /= total_mass;
 
 		// put the result into cPosition
-		var centerPosition = [c_x, c_y, c_z - 500];
+		var centerPosition = [c_x + gl.canvas.clientWidth, c_y + gl.canvas.clientHeight, c_z - 500];
 		// omg omg omg ok?
 
 
@@ -556,7 +556,7 @@ function main() {
         c_z /= total_mass;
 
         // put the result into cPosition
-        var centerPosition = [c_x, c_y, c_z - 500];
+        var centerPosition = [c_x + gl.canvas.clientWidth, c_y + gl.canvas.clientHeight, c_z - 500];
         // omg omg omg ok?
 
 
@@ -569,7 +569,7 @@ function main() {
 
         console.log(cameraPosition);
         console.log(centerPosition);
-        console.log(up);
+        //console.log(up);
         var cameraMatrix = m4.lookAt(cameraPosition, centerPosition, up);
 
         // Make a view matrix from the camera matrix
