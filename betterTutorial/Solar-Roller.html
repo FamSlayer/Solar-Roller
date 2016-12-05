@@ -58,24 +58,27 @@
 				<input class="gman-slider-slider" type="range" min="-300" max="300" value="0" id = "sliderVelZ">
 			</div>
 		</div>
-			<div id="radius">
-				<div class="gman-slider-outer">
-					<div class="gman-slider-label">Radius</div>
-					<div class="gman-slider-value">50</div>
-					<input class="gman-slider-slider" type="range" min="1" max="1000" value="50" id = "mMass">
-				</div>
-			</div>
-				<select id="colorPicker">
-						<option value = "red">Red</option>
-						<option value = "green">Green</option>
-						<option value = "blue">Blue</option>
-						<option value = "cyan">Cyan</option>
-						<option value = "magenta">Magenta</option>
-						<option value = "yellow">Yellow</option>
-				</select>
-				<!-- button to make -->
-				<button id="createButton" onClick="textMakePlanet()">Create Planet</button>
-				<button id="pausePlay" onClick="pausePlay()">Play/Pause</button>
+        <div id="radius">
+            <div class="gman-slider-outer">
+                <div class="gman-slider-label">Radius</div>
+                <div class="gman-slider-value">50</div>
+                <input class="gman-slider-slider" type="range" min="1" max="1000" value="50" id = "mMass">
+            </div>
+        </div>
+
+        <select id="colorPicker">
+            <option value = "red">Red</option>
+            <option value = "green">Green</option>
+            <option value = "blue">Blue</option>
+            <option value = "cyan">Cyan</option>
+            <option value = "magenta">Magenta</option>
+            <option value = "yellow">Yellow</option>
+        </select>
+        <!-- button to make -->
+        <button id="createButton" onClick="textMakePlanet()">Create Planet</button>
+        <!--<button id="pausePlay" onClick="pausePlay()" value = "same">Play/Pause</button> -->
+        <input onClick = "pausePlay()" type="button" value="Play " id="pausePlay">
+        <button id="clearPlanets" onClick="clearPlanets()">Remove all Planets</button>
 	</div>
 </div>
 
@@ -119,49 +122,57 @@ var scale = [1, 1, 1];
 var fudgeFactor = 0;
 var planetMass = 50;
 var play = false;
+var gl;
 function textMakePlanet(){
-		//get the info for the planets
-		console.log("hello world");
-		console.log("velx = " + initalVelocity[0]);
-		var mColor = document.getElementById("colorPicker").value;
-		console.log("mcolor = " + mColor);
-		if(planetMass > 0){
-				//make the new planet
-				var color;
-				if(mColor === "red"){
-						//red
-						color = gColor.RED;
-				} else if (mColor === "green"){
-						//green
-						color = gColor.GREEN;
-				} else if (mColor === "blue"){
-						//green
-						color = gColor.BLUE;
-				} else if (mColor === "cyan"){
-						//green
-						color = gColor.CYAN;
-				} else if (mColor === "magenta"){
-						//green
-						color = gColor.MAGENTA;
-				} else if (mColor === "yellow"){
-						//yellow
-						console.log("it's yellow");
-						color = gColor.YELLOW;
-				}
+    //get the info for the planets
+    var mColor = document.getElementById("colorPicker").value;
+    if(planetMass > 0){
+        //make the new planet
+        var color;
+        if(mColor === "red"){
+            //red
+            color = gColor.RED;
+        } else if (mColor === "green"){
+            //green
+            color = gColor.GREEN;
+        } else if (mColor === "blue"){
+            //green
+            color = gColor.BLUE;
+        } else if (mColor === "cyan"){
+            //green
+            color = gColor.CYAN;
+        } else if (mColor === "magenta"){
+            //green
+            color = gColor.MAGENTA;
+        } else if (mColor === "yellow"){
+            //yellow
+            color = gColor.YELLOW;
+        }
 
-				//planetMass = Math.cbrt(planetMass * 3 / 4 / Math.PI / density) ;
-				var newPlanet = new Planet(translation[0], translation[1], translation[2], planetMass, initalVelocity[0], initalVelocity[1], initalVelocity[2], "same", color); 
-				//newPlanet.AddMass(planetMass * density);
-				Planets.push(newPlanet);
+        //planetMass = Math.cbrt(planetMass * 3 / 4 / Math.PI / density) ;
+        var newPlanet = new Planet(translation[0], translation[1], translation[2], planetMass, initalVelocity[0], initalVelocity[1], initalVelocity[2], "same", color); 
+        //newPlanet.AddMass(planetMass * density);
+        Planets.push(newPlanet);
 
-		}
+    }
 }
 
 function pausePlay () {
-		// body...
-		play = !play;
-		console.log("play is " + play);
+    // body...
+    play = !play;
+    if(play){
+        document.getElementById("pausePlay").value = "Pause";
+    } else{
+        document.getElementById("pausePlay").value = "Play ";
+    }
+    //console.log("play is " + play);
 
+}
+
+function clearPlanets() {
+    Planets = [];
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    //main();
 }
 
 var timeSlice = 16;
@@ -182,7 +193,7 @@ function main() {
 	/** @type {HTMLCanvasElement} */
 	var canvas = document.getElementById("canvas");
 	webglLessonsHelper.setupLesson(canvas);
-	var gl = canvas.getContext("webgl");
+	gl = canvas.getContext("webgl");
 	if (!gl) {
 		webglLessonsHelper.showNeedWebGL(canvas);
 		return;
