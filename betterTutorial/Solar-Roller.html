@@ -111,8 +111,8 @@ function main() {
 	//var numVerts = 16 * 6;
 
 	// hardcoding in our planets for now
-	var p1 = new Planet(  1200,  600,   100,  100,  -50,  -20,   0, "RED PLANET", gColor.RED);
-	var p2 = new Planet( 600, -50,   100,  50, 10, 10,   0, "BLUE PLANET", gColor.BLUE);
+	var p1 = new Planet(  1200,  300,   -200,  100,  -50,  -20,   0, "RED PLANET", gColor.RED);
+	var p2 = new Planet( 600, -50,   600,  50, 10, 10,   0, "BLUE PLANET", gColor.BLUE);
 	var p3 = new Planet( 150, 400,   100,   75,  1, 20,   0, "CYAN PLANET", gColor.CYAN);
 
 	// global variable of the planets
@@ -312,7 +312,7 @@ function main() {
 	var translation = [45, 150, 0];
 	var rotation = [degToRad(40), degToRad(25), degToRad(325)];
 	var scale = [1, 1, 1];
-	var fudgeFactor = 0;
+	var fudgeFactor = .7;
 
 	drawScene();
 
