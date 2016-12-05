@@ -530,31 +530,82 @@ function main() {
 				// Compute the matrices
 				//Planets[0].Opdate(times);
 				
-				for(var i = 0; i < Planets.length; i++){
-					Planets[i].Opdate(timeSlice/1000);
+				var radius = 200;
 
-					var matrix = m4.projection(gl.canvas.clientWidth, gl.canvas.clientHeight, 2000);
-					//matrix = m4.perspective(degToRad(140), gl.canvas.clientWidth / gl.canvas.clientHeight, -1000, 1000);
-					//matrix = m4.translate(matrix, Planets[1].x_, Planets[1].y_, Planets[1].z_);
-					matrix = m4.translate(matrix, Planets[i].x_, Planets[i].y_, Planets[i].z_);
-					//matrix = m4.xRotate(matrix, rotation[0]);
-					//matrix = m4.yRotate(matrix, rotation[1]);
-					//matrix = m4.zRotate(matrix, rotation[2]);
-					matrix = m4.scale(matrix, Planets[i].r_, Planets[i].r_, Planets[i].r_);
+        var aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
+        var zNear = 1;
+        var zFar = 2000;
+        var projectionMatrix = m4.perspective(fieldOfViewRadians, aspect, zNear, zFar); 
 
-					// Set the matrix.
-					gl.uniformMatrix4fv(matrixLocation, false, matrix);
 
-					// Set the fudgeFactor
-					//gl.uniform1f(fudgeLocation, fudgeFactor);
 
-					// Draw the geometry.
-					var primitiveType = gl.TRIANGLES;
-					var offset = 0;
-					//var count = 16 * 6;
-					setColors(gl, Planets[i].color_);
-					gl.drawArrays(primitiveType, offset, numVerts);
-				}
+        // compute the location of the center of the system
+        var c_x = 0;
+        var c_y = 0;
+        var c_z = 0;
+        var total_mass = 0;
+        for(var q=0; q < Planets.length; q++)
+        {
+            c_x += Planets[q].x_ * Planets[q].m_;
+            c_y += Planets[q].y_ * Planets[q].m_;
+            c_z += Planets[q].z_ * Planets[q].m_;
+            total_mass += Planets[q].m_;
+        }
+        c_x /= total_mass;
+        c_y /= total_mass;
+        c_z /= total_mass;
+
+        // put the result into cPosition
+        var centerPosition = [c_x, c_y, c_z - 500];
+        // omg omg omg ok?
+
+
+        var cameraMatrix = m4.yRotation(cameraAngleRadians);
+        cameraMatrix = m4.translate(cameraMatrix, 0, 0, radius * 1.5);
+
+
+        var cameraPosition = [cameraMatrix[12], cameraMatrix[13], cameraMatrix[14],];
+        var up = [0, 1, 0];
+
+        console.log(cameraPosition);
+        console.log(centerPosition);
+        console.log(up);
+        var cameraMatrix = m4.lookAt(cameraPosition, centerPosition, up);
+
+        // Make a view matrix from the camera matrix
+        var viewMatrix = m4.inverse(cameraMatrix);
+
+        // Compute a view projection matrix
+        var viewProjectionMatrix = m4.multiply(projectionMatrix, viewMatrix);
+
+
+
+
+        //do an initial draw
+        for(var i = 0; i < Planets.length; i++){
+            Planets[i].Opdate(timeSlice/1000);
+            //var matrix = viewProjectionMatrix;
+            //matrix = m4.perspective(degToRad(140), gl.canvas.clientWidth / gl.canvas.clientHeight, -1000, 1000);
+            //matrix = m4.translate(matrix, Planets[1].x_, Planets[1].y_, Planets[1].z_);
+            var matrix = m4.translate(viewProjectionMatrix, Planets[i].x_, Planets[i].y_, Planets[i].z_);
+            //matrix = m4.xRotate(matrix, rotation[0]);
+            //matrix = m4.yRotate(matrix, rotation[1]);
+            //matrix = m4.zRotate(matrix, rotation[2]);
+            matrix = m4.scale(matrix, Planets[i].r_, Planets[i].r_, Planets[i].r_);
+
+            // Set the matrix.
+            gl.uniformMatrix4fv(matrixLocation, false, matrix);
+
+            // Set the fudgeFactor
+            //gl.uniform1f(fudgeLocation, fudgeFactor);
+
+            // Draw the geometry.
+            var primitiveType = gl.TRIANGLES;
+            var offset = 0;
+            //var count = 16 * 6;
+            setColors(gl, Planets[i].color_);
+            gl.drawArrays(primitiveType, offset, numVerts);
+        }
 				}
 
 				//draw the planet that I am drawing
