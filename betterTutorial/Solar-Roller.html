@@ -473,13 +473,15 @@ function main() {
 		c_y /= total_mass;
 		c_z /= total_mass;
 
-		// put the result into cPosition
+		// put the result into centerPosition
 		var centerPosition = [c_x + gl.canvas.clientWidth, c_y + gl.canvas.clientHeight, c_z - 500];
-		// omg omg omg ok?
 
 
-		var cameraMatrix = m4.yRotation(cameraAngleRadians);
-		cameraMatrix = m4.translate(cameraMatrix, 0, 0, radius * 1.5);
+		var cameraMatrix = m4.xRotation(cameraAngleRadiansX);
+        cameraMatrix = m4.multiply( cameraMatrix, m4.yRotation(camerAngleRadiansY) );
+        cameraMatrix = m4.multiply( cameraMatrix, m4.zRotation(camerAngleRadiansZ) );
+
+        cameraMatrix = m4.translate(cameraMatrix, 0, 0, radius * 1.5);
 
 
 		var cameraPosition = [cameraMatrix[12], cameraMatrix[13], cameraMatrix[14],];
@@ -533,7 +535,7 @@ function main() {
 				// Compute the matrices
 				//Planets[0].Opdate(times);
 				
-				var radius = 200;
+				var radius = 800;
 
         var aspect = gl.canvas.clientWidth / gl.canvas.clientHeight;
         var zNear = 1;
@@ -563,7 +565,10 @@ function main() {
         // omg omg omg ok?
 
 
-        var cameraMatrix = m4.yRotation(cameraAngleRadians);
+        var cameraMatrix = m4.xRotation(cameraAngleRadiansX);
+        cameraMatrix = m4.multiply( cameraMatrix, m4.yRotation(camerAngleRadiansY) );
+        cameraMatrix = m4.multiply( cameraMatrix, m4.zRotation(camerAngleRadiansZ) );
+
         cameraMatrix = m4.translate(cameraMatrix, 0, 0, radius * 1.5);
 
 
