@@ -568,7 +568,9 @@ function main() {
             //var matrix = viewProjectionMatrix;
             //matrix = m4.perspective(degToRad(140), gl.canvas.clientWidth / gl.canvas.clientHeight, -1000, 1000);
             //matrix = m4.translate(matrix, Planets[1].x_, Planets[1].y_, Planets[1].z_);
-            var matrix = m4.translate(viewProjectionMatrix, Planets[i].x_, Planets[i].y_, Planets[i].z_);
+
+            var matrix = m4.translate(viewProjectionMatrix, Planets[i].x_ - Planets[i].r_/2, Planets[i].y_ - Planets[i].r_/2, Planets[i].z_ - Planets[i].r_/2);
+
             matrix = m4.scale(matrix, Planets[i].r_, Planets[i].r_, Planets[i].r_);
 
             // Set the matrix.
