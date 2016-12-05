@@ -76,7 +76,9 @@
         </select>
         <!-- button to make -->
         <button id="createButton" onClick="textMakePlanet()">Create Planet</button>
-        <button id="pausePlay" onClick="pausePlay()">Play/Pause</button>
+        <!--<button id="pausePlay" onClick="pausePlay()" value = "same">Play/Pause</button> -->
+        <input onClick = "pausePlay()" type="button" value="Play " id="pausePlay">
+        <button id="clearPlanets" onClick="clearPlanets()">Remove all Planets</button>
 	</div>
 </div>
 
@@ -120,12 +122,10 @@ var scale = [1, 1, 1];
 var fudgeFactor = 0;
 var planetMass = 50;
 var play = false;
+var gl;
 function textMakePlanet(){
     //get the info for the planets
-    console.log("hello world");
-    console.log("velx = " + initalVelocity[0]);
     var mColor = document.getElementById("colorPicker").value;
-    console.log("mcolor = " + mColor);
     if(planetMass > 0){
         //make the new planet
         var color;
@@ -160,8 +160,19 @@ function textMakePlanet(){
 function pausePlay () {
     // body...
     play = !play;
-    console.log("play is " + play);
+    if(play){
+        document.getElementById("pausePlay").value = "Pause";
+    } else{
+        document.getElementById("pausePlay").value = "Play ";
+    }
+    //console.log("play is " + play);
 
+}
+
+function clearPlanets() {
+    Planets = [];
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+    //main();
 }
 
 var timeSlice = 16;
@@ -182,7 +193,7 @@ function main() {
 	/** @type {HTMLCanvasElement} */
 	var canvas = document.getElementById("canvas");
 	webglLessonsHelper.setupLesson(canvas);
-	var gl = canvas.getContext("webgl");
+	gl = canvas.getContext("webgl");
 	if (!gl) {
 		webglLessonsHelper.showNeedWebGL(canvas);
 		return;
