@@ -79,6 +79,14 @@
         <!--<button id="pausePlay" onClick="pausePlay()" value = "same">Play/Pause</button> -->
         <input onClick = "pausePlay()" type="button" value="Play " id="pausePlay">
         <button id="clearPlanets" onClick="clearPlanets()">Remove all Planets</button>
+
+        <div id="cameraAngle">
+            <div class="gman-slider-outer">
+                <div class="gman-slider-label">angle</div>
+                <div class="gman-slider-value">0</div>
+                <input class="gman-slider-slider" type="range" min="1" max="1000" value="50" id = "mMass">
+            </div>
+        </div>
 	</div>
 </div>
 
@@ -370,10 +378,14 @@ function main() {
 		webglLessonsHelper.setupSlider("#velY", {value: initalVelocity[1], slide: updateVelocity(1), max: 200, min: -200});
 		webglLessonsHelper.setupSlider("#velZ", {value: initalVelocity[2], slide: updateVelocity(2), max: 200, min: -200});
 		webglLessonsHelper.setupSlider("#radius", {value: planetMass, slide: updateMass(), max: 200});
+        webglLessonsHelper.setupSlider("#cameraAngle", {value: cameraAngleRadians, slide: updateCameraAngle(), max: 360, min: 0});
 
 
-		function updateCameraAngle(event, ui) {
-		cameraAngleRadians = degToRad(ui.value);
+	function updateCameraAngle(event, ui) {
+        return function(event, ui){
+            cameraAngleRadians = degToRad(ui.value);    
+        }
+		
 	}
 	function updatePosition(index) {
 		return function(event, ui) {
